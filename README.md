@@ -30,11 +30,11 @@ string right = @"ABC abc
     XYZ";
 ```
 
-![Side by Side Sample](https://github.com/Aiikon/TextDiff/tree/master/Examples/SideBySideSample.png)
+![Side by Side Sample](https://raw.githubusercontent.com/Aiikon/TextDiff/master/Examples/SideBySideSample.png)
 
-![Inline Sample](https://github.com/Aiikon/TextDiff/tree/master/Examples/InlineSample.png)
+![Inline Sample](https://raw.githubusercontent.com/Aiikon/TextDiff/master/Examples/InlineSample.png)
 
-See the [samples](Samples.html).
+See the [samples](http://patrice.dargenton.free.fr/CodesSources/TextDiffToHtmlSamples.html).
 
 [DiffMatchPatch](https://github.com/google/diff-match-patch) was also used as the tool behind the Track Changes mode of the DiffPlex library. For DiffLib, the Track Changes mode implementation is poor, it should probably be optimized.
 
