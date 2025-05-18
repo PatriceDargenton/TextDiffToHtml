@@ -4,7 +4,7 @@ namespace TextDiffToHtml
     internal class Const
     {
         public const string appTitle = "TextDiffToHtml";
-        public const string dateVersion = "17/05/2025";
+        public const string dateVersion = "18/05/2025";
 
         public const string sideBySideFile = "SideBySide.html";
         public const string inlineFile = "Inline.html";
@@ -33,8 +33,27 @@ namespace TextDiffToHtml
         public const char newlineChar = '\n';
 
         public const string htmlSpace = "\x00a0";
-        public const string htmlNewline = "<br/>";
+        public const string htmlNewline = "<br>"; // HTML5
+        //public const string htmlNewline = "<br/>"; // XHTML or XML compatibility
+
         public const string htmlCharset = @"<meta charset = ""UTF-8"">";
+
+        // Note: style tag should be in the head section of the HTML document, but it is accepted in some browsers
+        // (for example font style may be ignored in somes browsers)
+        public const string htmlStart =
+@"<!DOCTYPE html>
+<html lang=""fr"">
+<head>
+  <meta charset=""UTF-8"">
+  <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  <title>TextDiffToHtmlSamples</title>
+</head>
+<body>
+";
+        public const string htmlEnd =
+@"</body>
+</html>";
+
         public const string htmlPilcrowSign = "&para;"; // Glyph used to identify a paragraph
         //public const string htmlMonospacedFont = "courier"; // "Courier New"; 
         public const string htmlMonospacedFont = "consolas"; // monospace

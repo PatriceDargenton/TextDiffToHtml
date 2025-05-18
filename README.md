@@ -1,5 +1,6 @@
 # TextDiffToHtml
 Side by side Text diff to html in C#
+---
 
 This source is the C# conversion of this PowerShell script:
 
@@ -85,6 +86,7 @@ This project relies on the following NuGet packages:
 - [DiffLib](https://www.nuget.org/packages/DiffLib/) ![NuGet](https://img.shields.io/nuget/v/DiffLib.svg)
 - [DiffMatchPatch](https://www.nuget.org/packages/DiffMatchPatch/) ![NuGet](https://img.shields.io/nuget/v/DiffMatchPatch.svg)
 - [Vereyon.Windows.WebBrowser](https://www.nuget.org/packages/Vereyon.Windows.WebBrowser/) ![NuGet](https://img.shields.io/nuget/v/Vereyon.Windows.WebBrowser.svg)
+- [Enums.Net](https://www.nuget.org/packages/Enums.Net/) ![NuGet](https://img.shields.io/nuget/v/Enums.Net.svg)
 
 # Versions
 

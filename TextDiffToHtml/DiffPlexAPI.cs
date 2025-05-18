@@ -64,6 +64,7 @@ XYZ";
                 string rightText = HtmlEncodeWithDiff(showIdenticalLines, newLine, out bool identicalRight);
                 if (identicalLeft && identicalRight && !showIdenticalLines) continue;
                 string delta = deltaLookup[oldLine.Type];
+                string deltaHtml = Helper.HtmlEncode(delta);
 
                 if (string.IsNullOrEmpty(oldLine.Text) && 
                     string.IsNullOrEmpty(newLine.Text))
@@ -75,7 +76,7 @@ XYZ";
                     $"      <tr>" +
                     $"<td>{oldLine.Position}</td>" +
                     $"<td>{leftText}</td>" +
-                    $"<td>{delta}</td>" +
+                    $"<td>{deltaHtml}</td>" +
                     $"<td>{rightText}</td>" +
                     $"<td>{newLine.Position}</td></tr>");
             }
@@ -92,17 +93,29 @@ XYZ";
             {
                 var sb = new StringBuilder();
 
+                var spanTag = false;
                 var lastStateChanged = false;
                 foreach (var piece in line.SubPieces)
                 {
                     var changed = (piece.Type != ChangeType.Unchanged);
                     if (colorizeDiff && changed != lastStateChanged)
                     {
-                        sb.Append(changed ? "<span style='background: yellow;'>" : "</span>");
+                        //sb.Append(changed ? "<span style='background: yellow;'>" : "</span>");
+                        if (changed)
+                        {
+                            sb.Append("<span style='background: yellow;'>");
+                            spanTag = true;
+                        }
+                        else
+                        { 
+                            sb.Append("</span>"); 
+                            spanTag = false; 
+                        }
                         lastStateChanged = changed;
                     }
                     sb.Append(Helper.HtmlEncode(piece.Text));
                 }
+                if (spanTag) sb.Append("</span>");
 
                 return sb.ToString();
             }

@@ -111,7 +111,8 @@ This is the final equal line";
                     case DiffOperation.Insert:
                         sb.Append("<td></td>");
                         sb.Append("<td></td>");
-                        sb.Append("<td>>></td>");
+                        //sb.Append("<td>>></td>");
+                        sb.Append($"<td>{Helper.HtmlEncode(">>")}</td>");
                         sb.Append(
                             "<td><span style='background-color: " + 
                             insertBkGrndColor + ";" + underlineStyle + "'>" +
@@ -127,7 +128,8 @@ This is the final equal line";
                             deleteBkGrndColor + ";" + linethroughStyle + "'>" +
                             Helper.HtmlEncode(element.ElementFromCollection1.Value) +
                             "</span></td>");
-                        sb.Append("<td><<</td>");
+                        //sb.Append("<td><<</td>");
+                        sb.Append($"<td>{Helper.HtmlEncode("<<")}</td>");
                         sb.Append("<td></td>");
                         sb.Append("<td></td>");
                         break;
@@ -145,7 +147,8 @@ This is the final equal line";
                         AppendFormattedDiff(sb, sections, element.ElementFromCollection1.Value,
                             charLevel, modifiedColorLeft, linethrough, isLeft: true); 
                         sb.Append("</td>");
-                        sb.Append("<td><></td>");
+                        //sb.Append("<td><></td>");
+                        sb.Append($"<td>{Helper.HtmlEncode("<>")}</td>");
 
                         sb.Append("<td>");
                         AppendFormattedDiff(sb, sections, element.ElementFromCollection2.Value,
@@ -353,7 +356,7 @@ This is the final equal line";
                 {
                     result.Add(Helper.HtmlEncode(pieceText));
                 }
-                else if (!showIdenticalParts && result.Count > 0 && !result.Last().EndsWith(" "))
+                else if (!showIdenticalParts && result.Count > 0 && !result.Last().EndsWith(' '))
                 {
                     result.Add(" ");
                 }

@@ -9,7 +9,7 @@
     <Features>strict</Features> <!-- C# strict mode -->
     <Product>TextDiffToHtml</Product>
     <AssemblyTitle>Side by side Text diff to html in C#</AssemblyTitle>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <ApplicationIcon>TextDiffToHtml.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -34,7 +34,7 @@
     <PackageReference Include="Enums.NET" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.4" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.5" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageReference Include="Vereyon.Windows.WebBrowser" Version="1.0.0" />
   </ItemGroup>

@@ -362,7 +362,8 @@ namespace TextDiffToHtml
         {
             string left = "";
             string right = "";
-            string htmlSample = Const.htmlCharset + Const.newline;
+            //string htmlSample = Const.htmlCharset + Const.newline;
+            string htmlSample = Const.htmlStart;
 
             var samples = true;
             if (!string.IsNullOrEmpty(this.prm.LeftText) &&
@@ -420,16 +421,16 @@ namespace TextDiffToHtml
                         case TextDiffToHtmlEnums.DisplayModeEnum.SideBySide:
                             var htmlDiffPlexSideBySide = "";
                             if (samples) htmlDiffPlexSideBySide =
-                                "<br/>" + this.LbSample.Text + 
-                                ": DiffPlex side by side: Original DiffPlex sample from Aiikon<br/>";
+                                "<br>" + this.LbSample.Text + 
+                                ": DiffPlex side by side: Original DiffPlex sample from Aiikon<br>\n";
                             htmlDiffPlexSideBySide += DiffPlexAPI.TextDiffSideBySide(left, right,
                                 this.ChkIdenticalLines.Checked, this.ChkMonospacedFont.Checked);
                             html += htmlDiffPlexSideBySide;
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.Inline:
                             var htmlDiffPlexInline = "";
-                            if (samples) htmlDiffPlexInline = "<br/>" + this.LbSample.Text + 
-                                    ": DiffPlex inline<br/>";
+                            if (samples) htmlDiffPlexInline = "<br>" + this.LbSample.Text +
+                                    ": DiffPlex inline<br>\n";
                             htmlDiffPlexInline += DiffPlexAPI.TextDiffInline(left, right,
                                 this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked,
                                 this.ChkMonospacedFont.Checked);
@@ -437,8 +438,8 @@ namespace TextDiffToHtml
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
                             var htmlDiffPlexCompact = "";
-                            if (samples) htmlDiffPlexCompact = "<br/>" + this.LbSample.Text + 
-                                    ": DiffPlex compact<br/>";
+                            if (samples) htmlDiffPlexCompact = "<br>" + this.LbSample.Text +
+                                    ": DiffPlex compact<br>\n";
                             htmlDiffPlexCompact += DiffPlexAPI.TextDiffCompact(left, right,
                                 this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked,
                                 this.ChkLineThrough.Checked, this.ChkMonospacedFont.Checked);
@@ -446,8 +447,8 @@ namespace TextDiffToHtml
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.TrackChanges:
                             var htmlDiffPlexTC = "";
-                            if (samples) htmlDiffPlexTC = "<br/>" + this.LbSample.Text + 
-                                    ": DiffPlex (DiffMatchPatch) track changes<br/>";
+                            if (samples) htmlDiffPlexTC = "<br>" + this.LbSample.Text +
+                                    ": DiffPlex (DiffMatchPatch) track changes<br>\n";
                             htmlDiffPlexTC += DiffPlexAPI.TextDiffTrackChanges(left, right);
                             html += htmlDiffPlexTC;
                             break;
@@ -460,8 +461,8 @@ namespace TextDiffToHtml
                     {
                         case TextDiffToHtmlEnums.DisplayModeEnum.SideBySide:
                             var htmlDiffLibSideBySide = "";
-                            if (samples) htmlDiffLibSideBySide = "<br/>" + this.LbSample.Text + 
-                                    ": DiffLib side by side:<br/>";
+                            if (samples) htmlDiffLibSideBySide = "<br>" + this.LbSample.Text +
+                                    ": DiffLib side by side:<br>\n";
                             htmlDiffLibSideBySide +=
                                 DiffLibAPI.TextDiffSideBySideSplitByLine(left, right,
                                     this.ChkIdenticalLines.Checked, this.ChkCharLevel.Checked,
@@ -470,8 +471,8 @@ namespace TextDiffToHtml
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.Inline:
                             var htmlDiffLibInline = "";
-                            if (samples) htmlDiffLibInline = "<br/>" + this.LbSample.Text + 
-                                    ": DiffLib inline<br/>";
+                            if (samples) htmlDiffLibInline = "<br>" + this.LbSample.Text +
+                                    ": DiffLib inline<br>\n";
                             htmlDiffLibInline += DiffLibAPI.TextDiffInline(left, right,
                                 this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked, 
                                 this.ChkMonospacedFont.Checked);
@@ -479,8 +480,8 @@ namespace TextDiffToHtml
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
                             var htmlDiffLibCompact = "";
-                            if (samples) htmlDiffLibCompact = "<br/> " + this.LbSample.Text + 
-                                    ": DiffLib compact<br/>";
+                            if (samples) htmlDiffLibCompact = "<br> " + this.LbSample.Text +
+                                    ": DiffLib compact<br>\n";
                             htmlDiffLibCompact += DiffLibAPI.TextDiffCompactSplitByLine(left, right,
                                 this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked, 
                                 this.ChkLineThrough.Checked, this.ChkMonospacedFont.Checked);
@@ -489,8 +490,8 @@ namespace TextDiffToHtml
                         case TextDiffToHtmlEnums.DisplayModeEnum.TrackChanges:
                             this.CmdCancel.Enabled = true;
                             var htmlDiffLibTC = "";
-                            if (samples) htmlDiffLibTC = "<br/>" + this.LbSample.Text + 
-                                    ": DiffLib track changes<br/>";
+                            if (samples) htmlDiffLibTC = "<br>" + this.LbSample.Text +
+                                    ": DiffLib track changes<br>\n";
                             htmlDiffLibTC += DiffLibAPI.TextDiffTrackChangesSplitByChar(left, right,
                                 this.ChkIdenticalParts.Checked, this.ChkLineThrough.Checked,
                                 this.ChkMonospacedFont.Checked,
@@ -503,6 +504,7 @@ namespace TextDiffToHtml
                     }
                     break;
             }
+            html += Const.htmlEnd;
             return html;
         }
     }

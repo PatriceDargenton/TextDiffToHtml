@@ -227,116 +227,116 @@ namespace TextDiffToHtml
 
 
             var htmlS1DiffPlexSideBySide =
-                "<br/>Sample 1: DiffPlex side by side: Original DiffPlex sample from Aiikon<br/>" +
+                "<br>Sample 1: DiffPlex side by side: Original DiffPlex sample from Aiikon<br>" +
                 DiffPlexAPI.TextDiffSideBySide(left, right, showIdenticalLines: true);
 
             //var htmlS1DiffPlexSideBySideOnlyDiff =
-            //    "<br/>Sample 1: DiffPlex side by side (only the differences):<br/>" +
+            //    "<br>Sample 1: DiffPlex side by side (only the differences):<br>" +
             //    DiffPlexAPI.TextDiffSideBySide(left, right, showIdenticalLines: false);
 
-            var htmlS1DiffLibSideBySide = "<br/>Sample 1: DiffLib side by side:<br/>" +
+            var htmlS1DiffLibSideBySide = "<br>Sample 1: DiffLib side by side:<br>" +
                 DiffLibAPI.TextDiffSideBySideSplitByLine(left, right, showIdenticalLines: true);
 
             var htmlS1DiffLibSideBySideCharLevel =
-                "<br/>Sample 1: DiffLib side by side (char level):<br/>" +
+                "<br>Sample 1: DiffLib side by side (char level):<br>" +
                 DiffLibAPI.TextDiffSideBySideSplitByLine(left, right, 
                     showIdenticalLines: true, charLevel: true);
 
             //var htmlS1DiffLibSideBySideOnlyDiff =
-            //    "<br/>Sample 1: DiffLib side by side (only the differences):<br/>" +
+            //    "<br>Sample 1: DiffLib side by side (only the differences):<br>" +
             //    DiffLibAPI.TextDiffSideBySideSplitByLine(left, right, showIdenticalLines: false);
 
-            var htmlS3DiffPlexSideBySide = "<br/>Sample 3: DiffPlex side by side: Aiikon yellow style<br/>" +
+            var htmlS3DiffPlexSideBySide = "<br>Sample 3: DiffPlex side by side: Aiikon yellow style<br>" +
                 DiffPlexAPI.TextDiffSideBySide(left3, right3, 
                     showIdenticalLines: true);
 
-            var htmlS3DiffLibSideBySide = "<br/>Sample 3: DiffLib side by side: Aiikon yellow style<br/>" +
+            var htmlS3DiffLibSideBySide = "<br>Sample 3: DiffLib side by side: Aiikon yellow style<br>" +
                 DiffLibAPI.TextDiffSideBySideSplitByLine(left3, right3, 
                     showIdenticalLines: true);
 
             var htmlS3DiffLibSideBySideCharLevel =
-                "<br/>Sample 3: DiffLib side by side (char level):<br/>" +
+                "<br>Sample 3: DiffLib side by side (char level):<br>" +
                 DiffLibAPI.TextDiffSideBySideSplitByLine(left3, right3, 
                     showIdenticalLines: true, charLevel: true);
 
             //var htmlS3DiffLibSideBySideDiffOnly =
-            //    "<br/>Sample 3: DiffLib side by side (only the differences):<br/>" +
+            //    "<br>Sample 3: DiffLib side by side (only the differences):<br>" +
             //    DiffLibAPI.TextDiffSideBySideSplitByLine(left3, right3, showIdenticalLines: false);
             
             var htmlS3HtmlDiffLibSideBySideCharLevel =
-                "<br/>Sample 3: DiffLib side by side (char level):<br/>" +
+                "<br>Sample 3: DiffLib side by side (char level):<br>" +
                 DiffLibAPI.TextDiffSideBySideSplitByLine(left3, right3, 
                 showIdenticalLines: true, charLevel: true);
             
 
             var htmlS1DiffPlexInline =
-                "<br/>Sample 1: DiffPlex inline: Second original DiffPlex sample from Aiikon<br/>" +
+                "<br>Sample 1: DiffPlex inline: Second original DiffPlex sample from Aiikon<br>" +
                 DiffPlexAPI.TextDiffInline(left, right);
 
-            var htmlS1DiffLibInline = "<br/>Sample 1: DiffLib inline:<br/>" +
+            var htmlS1DiffLibInline = "<br>Sample 1: DiffLib inline:<br>" +
                 DiffLibAPI.TextDiffInline(left, right);
 
             var htmlS3DiffPlexInline =
-                "<br/>Sample 3: DiffPlex inline:<br/>" +
+                "<br>Sample 3: DiffPlex inline:<br>" +
                 DiffPlexAPI.TextDiffInline(left3, right3);
 
-            var htmlS3DiffLibInline = "<br/>Sample 3: DiffLib inline:<br/>" +
+            var htmlS3DiffLibInline = "<br>Sample 3: DiffLib inline:<br>" +
                 DiffLibAPI.TextDiffInline(left3, right3);
 
 
             var htmlS1DiffLibCompact =
-                "<br/>Sample 1: DiffLib compact (monospaced font):<br/>" +
+                "<br>Sample 1: DiffLib compact:<br>" +
                 DiffLibAPI.TextDiffCompactSplitByLine(left, right);
 
-            var htmlS1DiffPlexCompact = "<br/>Sample 1: DiffPlex compact (monospaced font):<br/>" +
+            var htmlS1DiffPlexCompact = "<br>Sample 1: DiffPlex compact:<br>" +
                 DiffPlexAPI.TextDiffCompact(left, right);
 
             var htmlS2DiffPlexCompact =
-                "<br/>Sample 2: DiffPlex compact (monospaced font):<br/>" +
+                "<br>Sample 2: DiffPlex compact:<br>" +
                 DiffPlexAPI.TextDiffCompact(text1, text2, showIdenticalLines: true); 
 
             var htmlS2DiffLibCompactTrackChanges =
-                "<br/>Sample 2: DiffLib compact (monospaced font) :<br/>" +
-                DiffLibAPI.TextDiffCompactSplitByLine(text1, text2) + "<br/>";
+                "<br>Sample 2: DiffLib compact :<br>" +
+                DiffLibAPI.TextDiffCompactSplitByLine(text1, text2) + "<br>";
 
 
             var htmlS1DiffLibTrackChangesSplitByChar =
-                "<br/>Sample 1: DiffLib track changes:<br/>" +
-                DiffLibAPI.TextDiffTrackChangesSplitByChar(left, right) + "<br/>";
+                "<br>Sample 1: DiffLib track changes:<br>" +
+                DiffLibAPI.TextDiffTrackChangesSplitByChar(left, right) + "<br>";
 
             var htmlS1DiffMatchPatch =
-                "<br/>Sample 1: DiffMatchPatch track changes:<br/>" +
-                DiffMatchPatchAPI.TextDiffTrackChanges(left, right) + "<br/>";
+                "<br>Sample 1: DiffMatchPatch track changes:<br>" +
+                DiffMatchPatchAPI.TextDiffTrackChanges(left, right) + "<br>";
 
             var htmlS2DiffLibTrackChanges =
-                "<br/>Sample 2: DiffLib track changes: Original DiffLib 000 sample (Basic diffing of two texts)<br/>" +
-                DiffLibAPI.TextDiffTrackChangesSplitByChar(text1, text2) + "<br/>";
+                "<br>Sample 2: DiffLib track changes: Original DiffLib 000 sample (Basic diffing of two texts)<br>" +
+                DiffLibAPI.TextDiffTrackChangesSplitByChar(text1, text2) + "<br>";
 
             var htmlS2DiffMatchPatch =
-                "<br/>Sample 2: DiffMatchPatch track changes:<br/>" +
-                DiffMatchPatchAPI.TextDiffTrackChanges(text1, text2) + "<br/>";
+                "<br>Sample 2: DiffMatchPatch track changes:<br>" +
+                DiffMatchPatchAPI.TextDiffTrackChanges(text1, text2) + "<br>";
 
             var htmlS3DiffLibCompact =
-                "<br/>Sample 3: DiffLib compact (monospaced font): Original DiffLib 001 sample (Basic diffing of two text files)<br/>" +
+                "<br>Sample 3: DiffLib compact: Original DiffLib 001 sample (Basic diffing of two text files)<br>" +
                 DiffLibAPI.TextDiffCompactSplitByLine(left3, right3, 
                     showIdenticalLines: true, linethrough: true);
 
             var htmlS3DiffPlexCompact =
-                "<br/>Sample 3: DiffPlex compact (monospaced font): Not the same as the original DiffLib sample, but not bad:<br/>" +
+                "<br>Sample 3: DiffPlex compact: Not the same as the original DiffLib sample, but not bad:<br>" +
                 DiffPlexAPI.TextDiffCompact(left3, right3, 
                     showIdenticalLines: true, linethrough: true);
 
             
             var htmlS3DiffLibTrackChangesSplitByChar =
-                "<br/>Sample 3: DiffLib track changes:<br/>" +
-                DiffLibAPI.TextDiffTrackChangesSplitByChar(left3, right3) + "<br/>";
+                "<br>Sample 3: DiffLib track changes:<br>" +
+                DiffLibAPI.TextDiffTrackChangesSplitByChar(left3, right3) + "<br>";
 
             var htmlS3DiffMatchPatch =
-                "<br/>Sample 3: DiffMatchPatch track changes:<br/>" +
-                DiffMatchPatchAPI.TextDiffTrackChanges(left3, right3) + "<br/>";
+                "<br>Sample 3: DiffMatchPatch track changes:<br>" +
+                DiffMatchPatchAPI.TextDiffTrackChanges(left3, right3) + "<br>";
 
 
-            var htmlS1Demos = "<br/><h1>Sample 1 Demos:</h1><br/>"
+            var htmlS1Demos = "<br><h1>Sample 1 Demos:</h1><br>"
                 + htmlSample1
                 + htmlS1DiffPlexSideBySide
                 //+ htmlS1DiffPlexSideBySideOnlyDiff
@@ -351,14 +351,14 @@ namespace TextDiffToHtml
                 + htmlS1DiffMatchPatch
                 ;
 
-            var htmlS2Demos = "<br/><h1>Sample 2 Demos:</h1><br/>"
+            var htmlS2Demos = "<br><h1>Sample 2 Demos:</h1><br>"
                 + htmlSample2
                 + htmlS2DiffPlexCompact
                 + htmlS2DiffLibTrackChanges
                 + htmlS2DiffMatchPatch
                 ;
 
-            var htmlS3Demos = "<br/><h1>Sample 3 Demos:</h1><br/>"
+            var htmlS3Demos = "<br><h1>Sample 3 Demos:</h1><br>"
                 + htmlSample3
                 + htmlS3DiffPlexSideBySide
                 + htmlS3DiffLibSideBySide
@@ -373,7 +373,7 @@ namespace TextDiffToHtml
                 + htmlS3DiffMatchPatch
                 ;
 
-            var htmlSideBySideDemos = "<br/><h1>Side by side Demos:</h1><br/>"
+            var htmlSideBySideDemos = "<br><h1>Side by side Demos:</h1><br>"
                 + htmlS1DiffPlexSideBySide
                 //+ htmlS1DiffPlexSideBySideOnlyDiff
                 + htmlS1DiffLibSideBySide 
@@ -385,14 +385,14 @@ namespace TextDiffToHtml
                 + htmlS3DiffLibSideBySideCharLevel
                 ;
 
-            var htmlInlineDemos = "<br/><h1>Inline Demos:</h1><br/>"
+            var htmlInlineDemos = "<br><h1>Inline Demos:</h1><br>"
                 + htmlS1DiffPlexInline
                 + htmlS1DiffLibInline
                 + htmlS3DiffPlexInline
                 + htmlS3DiffLibInline
                 ;
 
-            var htmlCompactDemos = "<br/><h1>Compact Demos:</h1><br/>"
+            var htmlCompactDemos = "<br><h1>Compact Demos:</h1><br>"
                 + htmlS1DiffLibCompact
                 + htmlS1DiffPlexCompact
                 + htmlS3DiffLibCompact
@@ -401,7 +401,7 @@ namespace TextDiffToHtml
                 + htmlS2DiffLibCompactTrackChanges 
                 ;
 
-            var htmlTrackChangesDemos = "<br/><h1>Track changes Demos:</h1><br/>"
+            var htmlTrackChangesDemos = "<br><h1>Track changes Demos:</h1><br>"
                 + htmlSample1
                 + htmlS1DiffLibTrackChangesSplitByChar
                 + htmlS1DiffMatchPatch
@@ -417,11 +417,11 @@ namespace TextDiffToHtml
                 + htmlS3DiffMatchPatch
                 ;
 
-            var htmlDiffMatchPatchDemos = "<br/><h1>DiffMatchPatch Demos:</h1><br/>"
+            var htmlDiffMatchPatchDemos = "<br><h1>DiffMatchPatch Demos:</h1><br>"
                 + DiffMatchPatchAPI.Demos();
-            
-            var html =
-                htmlSideBySideDemos
+
+            var html = Const.htmlStart
+                + htmlSideBySideDemos
                 + htmlInlineDemos 
                 + htmlCompactDemos 
                 + htmlTrackChangesDemos
@@ -429,7 +429,7 @@ namespace TextDiffToHtml
                 + htmlS2Demos
                 + htmlS3Demos
                 + htmlDiffMatchPatchDemos
-                ;
+                + Const.htmlEnd;
 
             string path = AppContext.BaseDirectory; // Application.StartupPath() equivalent in .Net8;
             string filePath = Path.Combine(path, Const.outputFilename);
