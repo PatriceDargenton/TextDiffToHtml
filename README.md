@@ -37,7 +37,7 @@ string right = @"ABC abc
 
 See the [samples](http://patrice.dargenton.free.fr/CodesSources/TextDiffToHtmlSamples.html).
 
-[DiffMatchPatch](https://github.com/google/diff-match-patch) was also used as the tool behind the Track Changes mode of the DiffPlex library. For DiffLib, the Track Changes mode implementation is poor, it should probably be optimized.
+[DiffMatchPatch](https://github.com/google/diff-match-patch) is also used as the tool behind the Track Changes mode of the DiffPlex library. For DiffLib, the Track Changes mode implementation is poor, it should probably be optimized.
 
 # Keywords
 TextDiff, Text comparison, DiffPlex, DiffLib, DiffMatchPatch.

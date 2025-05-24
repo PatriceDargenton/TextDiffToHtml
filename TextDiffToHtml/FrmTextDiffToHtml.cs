@@ -62,12 +62,15 @@ namespace TextDiffToHtml
 
             txt = EnumHelper.GetEnumDescription<CharLevelEnum>();
             toolTip1.SetToolTip(ChkCharLevel, txt);
+            
+            txt = EnumHelper.GetEnumDescription<SwapLeftRightEnum>();
+            toolTip1.SetToolTip(ChkSwapLeftRight, txt);
 
             toolTip1.SetToolTip(CmdWebBrowser,
                 "Click to view differences in default external browser");
-            
+
             toolTip1.SetToolTip(CmdCancel, "Click to cancel a long operation");
-            
+
             toolTip1.SetToolTip(LbSample, "Choose a sample to test");
         }
 
@@ -123,6 +126,7 @@ namespace TextDiffToHtml
             this.ChkLineThrough.Checked = Properties.Settings.Default.LineThrough;
             this.ChkIdenticalLines.Checked = Properties.Settings.Default.ShowIdenticalLines;
             this.ChkIdenticalParts.Checked = Properties.Settings.Default.ShowIdenticalParts;
+            this.ChkSwapLeftRight.Checked = Properties.Settings.Default.SwapLeftRight;
 
             // DiffLib.TrackChanges is too slow for long texts
             if (this.LbLibrary.Text == TextDiffToHtmlEnums.LibraryEnum.DiffLib.ToString() &&
@@ -148,6 +152,7 @@ namespace TextDiffToHtml
             Properties.Settings.Default.LineThrough = this.ChkLineThrough.Checked;
             Properties.Settings.Default.ShowIdenticalLines = this.ChkIdenticalLines.Checked;
             Properties.Settings.Default.ShowIdenticalParts = this.ChkIdenticalParts.Checked;
+            Properties.Settings.Default.SwapLeftRight = this.ChkSwapLeftRight.Checked;
 
             Properties.Settings.Default.Save();
         }
@@ -197,6 +202,11 @@ namespace TextDiffToHtml
         }
 
         private void ChkCharLevel_CheckedChanged(object sender, EventArgs e)
+        {
+            Render();
+        }
+
+        private void ChkSwapLeftRight_CheckedChanged(object sender, EventArgs e)
         {
             Render();
         }
@@ -274,9 +284,9 @@ namespace TextDiffToHtml
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.Inline:
                             this.ChkIdenticalLines.Enabled = true;
-                            this.ChkIdenticalParts.Enabled = true; 
+                            this.ChkIdenticalParts.Enabled = true;
                             this.ChkMonospacedFont.Enabled = true;
-                            this.ChkCharLevel.Checked = true; 
+                            this.ChkCharLevel.Checked = true;
                             this.ChkLineThrough.Checked = false;
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
@@ -358,7 +368,7 @@ namespace TextDiffToHtml
             this.htmlRenderer.cancel = true;
         }
 
-        private string HtmlRender() 
+        private string HtmlRender()
         {
             string left = "";
             string right = "";
@@ -371,6 +381,13 @@ namespace TextDiffToHtml
             {
                 left = this.prm.LeftText;
                 right = this.prm.RightText;
+                if (this.ChkSwapLeftRight.Checked)
+                {
+                    // Swap left and right texts
+                    var tmp = left;
+                    left = right;
+                    right = tmp;
+                }
                 samples = false;
             }
             else
@@ -387,7 +404,7 @@ namespace TextDiffToHtml
 
                     // Sample 2 & 3: Lassevk's DiffLib Demos
                     // https://github.com/lassevk/DiffLib/tree/main/Examples
-                    
+
                     // 000 - Basic diffing of two texts
                     case "Sample 2":
                         left = DiffLibAPI.LassevkLeftSample1;
@@ -399,6 +416,13 @@ namespace TextDiffToHtml
                         left = DiffLibAPI.LassevkLeftSample2;
                         right = DiffLibAPI.LassevkRightSample2;
                         break;
+                }
+                if (this.ChkSwapLeftRight.Checked)
+                {
+                    // Swap left and right texts
+                    var tmp = left;
+                    left = right;
+                    right = tmp;
                 }
                 htmlSample +=
                     "<p>" + this.LbSample.Text + ":</p>" + Const.newline
@@ -421,7 +445,7 @@ namespace TextDiffToHtml
                         case TextDiffToHtmlEnums.DisplayModeEnum.SideBySide:
                             var htmlDiffPlexSideBySide = "";
                             if (samples) htmlDiffPlexSideBySide =
-                                "<br>" + this.LbSample.Text + 
+                                "<br>" + this.LbSample.Text +
                                 ": DiffPlex side by side: Original DiffPlex sample from Aiikon<br>\n";
                             htmlDiffPlexSideBySide += DiffPlexAPI.TextDiffSideBySide(left, right,
                                 this.ChkIdenticalLines.Checked, this.ChkMonospacedFont.Checked);
@@ -474,7 +498,7 @@ namespace TextDiffToHtml
                             if (samples) htmlDiffLibInline = "<br>" + this.LbSample.Text +
                                     ": DiffLib inline<br>\n";
                             htmlDiffLibInline += DiffLibAPI.TextDiffInline(left, right,
-                                this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked, 
+                                this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked,
                                 this.ChkMonospacedFont.Checked);
                             html += htmlDiffLibInline;
                             break;
@@ -483,7 +507,7 @@ namespace TextDiffToHtml
                             if (samples) htmlDiffLibCompact = "<br> " + this.LbSample.Text +
                                     ": DiffLib compact<br>\n";
                             htmlDiffLibCompact += DiffLibAPI.TextDiffCompactSplitByLine(left, right,
-                                this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked, 
+                                this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked,
                                 this.ChkLineThrough.Checked, this.ChkMonospacedFont.Checked);
                             html += htmlDiffLibCompact;
                             break;

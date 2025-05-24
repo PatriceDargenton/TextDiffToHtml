@@ -178,5 +178,17 @@ namespace TextDiffToHtml.Properties {
                 this["PreviewHtml"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SwapLeftRight {
+            get {
+                return ((bool)(this["SwapLeftRight"]));
+            }
+            set {
+                this["SwapLeftRight"] = value;
+            }
+        }
     }
 }

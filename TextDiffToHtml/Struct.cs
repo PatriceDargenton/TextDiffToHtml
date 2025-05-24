@@ -15,6 +15,7 @@ namespace TextDiffToHtml
         public bool CharLevel { get; set; }
         public bool MonospacedFont { get; set; }
         public long averageLength { get; set; }
+        public bool SwapLeftRight { get; set; }
     }
 
     public class Record

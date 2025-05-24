@@ -9,7 +9,7 @@
     <Features>strict</Features> <!-- C# strict mode -->
     <Product>TextDiffToHtml</Product>
     <AssemblyTitle>Side by side Text diff to html in C#</AssemblyTitle>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <ApplicationIcon>TextDiffToHtml.ico</ApplicationIcon>
   </PropertyGroup>
 

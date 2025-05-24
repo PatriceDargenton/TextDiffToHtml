@@ -43,6 +43,7 @@
             ChkIdenticalParts = new CheckBox();
             toolTip1 = new ToolTip(components);
             CmdCancel = new Button();
+            ChkSwapLeftRight = new CheckBox();
             SuspendLayout();
             // 
             // webBrowser
@@ -174,11 +175,23 @@
             CmdCancel.UseVisualStyleBackColor = true;
             CmdCancel.Click += CmdCancel_Click;
             // 
+            // ChkSwapLeftRight
+            // 
+            ChkSwapLeftRight.AutoSize = true;
+            ChkSwapLeftRight.Location = new Point(391, 66);
+            ChkSwapLeftRight.Name = "ChkSwapLeftRight";
+            ChkSwapLeftRight.Size = new Size(110, 19);
+            ChkSwapLeftRight.TabIndex = 13;
+            ChkSwapLeftRight.Text = "Swap Left-Right";
+            ChkSwapLeftRight.UseVisualStyleBackColor = true;
+            ChkSwapLeftRight.CheckedChanged += ChkSwapLeftRight_CheckedChanged;
+            // 
             // FrmTextDiffToHtml
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(831, 589);
+            Controls.Add(ChkSwapLeftRight);
             Controls.Add(CmdCancel);
             Controls.Add(ChkIdenticalParts);
             Controls.Add(ChkCharLevel);
@@ -215,5 +228,6 @@
         private CheckBox ChkIdenticalParts;
         private ToolTip toolTip1;
         private Button CmdCancel;
+        private CheckBox ChkSwapLeftRight;
     }
 }

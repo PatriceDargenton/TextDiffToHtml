@@ -80,6 +80,16 @@ namespace TextDiffToHtml
             [Description("Line through: off")]
             Off
         }
+        
+        [Description("Swap Left and Right texts")]
+        [DefaultValue(SwapLeftRightEnum.Off)]
+        public enum SwapLeftRightEnum
+        {
+            [Description("Swap Left & Right texts: on")]
+            On,
+            [Description("Swap Left & Right texts: off")]
+            Off
+        }
 
         public static LibraryEnum LibraryFromValue(string value)
         {
