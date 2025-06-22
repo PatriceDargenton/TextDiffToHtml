@@ -5,7 +5,7 @@ using static TextDiffToHtml.TextDiffToHtmlEnums;
 
 namespace TextDiffToHtml
 {
-    internal static class Program
+    public static class Program
     {
         /// <summary>
         ///  The main entry point for the application
@@ -194,7 +194,7 @@ namespace TextDiffToHtml
             }
         }
 
-        static void Demo()
+        public static string Demo(bool showHtml = true)
         {
             // Sample 1: Aiikon's TextDiff Demo
             // https://github.com/Aiikon/TextDiff
@@ -431,10 +431,15 @@ namespace TextDiffToHtml
                 + htmlDiffMatchPatchDemos
                 + Const.htmlEnd;
 
-            string path = AppContext.BaseDirectory; // Application.StartupPath() equivalent in .Net8;
-            string filePath = Path.Combine(path, Const.outputFilename);
-            File.WriteAllText(filePath, html);
-            Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+            if (showHtml) 
+            { 
+                string path = AppContext.BaseDirectory; // Application.StartupPath() equivalent in .Net8;
+                string filePath = Path.Combine(path, Const.outputFilename);
+                File.WriteAllText(filePath, html);
+                Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+            }
+
+            return html;
         }
     }
 }
