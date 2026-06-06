@@ -148,6 +148,7 @@ XYZ";
             public required List<DiffPlex.DiffBuilder.Model.DiffPiece> RightPieces { get; set; }
         }
 
+        // Char level mode: false
         public static string TextDiffInline(string left, string right, 
             bool showIdenticalLines = true, bool showIdenticalParts = true, 
             bool monospacedFont = true)
@@ -302,6 +303,7 @@ XYZ";
 
         #region Inline (compact)
 
+        // Char level mode: false
         static public string TextDiffCompact(string left, string right,
             bool showIdenticalLines = true, bool showIdenticalParts = true, 
             bool linethrough = true, bool monospacedFont = true)
@@ -413,6 +415,7 @@ XYZ";
 
         #region Track changes
 
+        // Char level mode: true
         static public string TextDiffTrackChanges(string left, string right)
         {
             // Use DiffMatchPatch version

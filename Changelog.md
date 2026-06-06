@@ -6,6 +6,17 @@ All notable changes to the TextDiffToHtml project will be documented in this fil
 ### Changed
 ### Added
 
+## [1.04] - 2025-06-06
+### Added
+- [TextDiff.Sharp library](https://github.com/iyulab/TextDiff)
+
+### Changed
+- .Net 9 -> .Net 10
+
+### Fixed
+- DiffLib track changes mode: text size limited to 50 KB
+- Test: line ending normalized (changed between .Net 9 and .Net 10 !?)
+
 ## [1.03] - 2025-05-24
 ### Added
 - Option swap left and right texts

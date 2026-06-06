@@ -13,6 +13,8 @@ namespace TextDiffToHtml
             DiffPlex,
             [Description("Compare using DiffLib")] // https://github.com/lassevk/DiffLib
             DiffLib,
+            [Description("Compare using TextDiff.Sharp")] // https://github.com/iyulab/TextDiff
+            TextDiffSharp,
             //[Description("Compare using DiffMatchPatch")] // https://github.com/google/diff-match-patch
             //DiffMatchPatch,
         }

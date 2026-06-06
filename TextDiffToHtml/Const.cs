@@ -4,7 +4,7 @@ namespace TextDiffToHtml
     internal class Const
     {
         public const string appTitle = "TextDiffToHtml";
-        public const string dateVersion = "24/05/2025";
+        public const string dateVersion = "06/06/2026";
 
         public const string sideBySideFile = "SideBySide.html";
         public const string inlineFile = "Inline.html";
@@ -27,6 +27,7 @@ namespace TextDiffToHtml
         public static readonly Color InsertBkGrndColorTC = HtmlColors.Green;
 
         public const int pageCode = 1252;
+        public const int maxTextSizeForTrackChanges = 50000; // 50 KB
 
         public const string newline = "\n"; // Line Feed
         public const string newlineCRLF = "\r\n"; // Carriage Return + Line Feed: Environment.NewLine

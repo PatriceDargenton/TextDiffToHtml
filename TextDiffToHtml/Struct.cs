@@ -25,4 +25,25 @@ namespace TextDiffToHtml
         public string Delta { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;
     }
+
+    //public class DiffLineData // use DiffSection from DiffLib
+    //{
+    //    public int? L { get; set; } // Left line number
+    //    public int? R { get; set; } // Right line number
+    //    public string Delta { get; set; } = string.Empty;
+    //    public string? Left { get; set; }
+    //    public string? Right { get; set; }
+    //    public List<DiffLib.DiffSection>? CharSections { get; set; }
+    //}
+
+    //public class DiffLineData // use DiffPiece from DiffPlex
+    //{
+    //    public int? L { get; set; }
+    //    public int? R { get; set; }
+    //    public string Delta { get; set; } = string.Empty;
+    //    public string Left { get; set; } = string.Empty;
+    //    public string Right { get; set; } = string.Empty;
+    //    public required List<DiffPiece> LeftPieces { get; set; }
+    //    public required List<DiffPiece> RightPieces { get; set; }
+    //}
 }

@@ -60,10 +60,10 @@
             // LbLibrary
             // 
             LbLibrary.FormattingEnabled = true;
-            LbLibrary.Items.AddRange(new object[] { "DiffPlex", "DiffLib" });
+            LbLibrary.Items.AddRange(new object[] { "DiffPlex", "DiffLib", "TextDiffSharp" });
             LbLibrary.Location = new Point(26, 21);
             LbLibrary.Name = "LbLibrary";
-            LbLibrary.Size = new Size(101, 34);
+            LbLibrary.Size = new Size(101, 49);
             LbLibrary.TabIndex = 3;
             LbLibrary.SelectedIndexChanged += LbLibrary_SelectedIndexChanged;
             // 

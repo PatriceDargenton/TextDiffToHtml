@@ -250,7 +250,8 @@ namespace TextDiffToHtml
                             this.ChkIdenticalLines.Enabled = true;
                             this.ChkIdenticalParts.Enabled = true;
                             this.ChkMonospacedFont.Enabled = true;
-                            this.ChkCharLevel.Checked = true;
+                            //this.ChkCharLevel.Checked = true;
+                            this.ChkCharLevel.Checked = false; // 06/06/2026
                             this.ChkLineThrough.Checked = false;
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
@@ -259,7 +260,8 @@ namespace TextDiffToHtml
                             this.ChkLineThrough.Enabled = true;
                             this.ChkMonospacedFont.Enabled = true;
                             this.ChkIdenticalParts.Checked = true; // No choice
-                            this.ChkCharLevel.Checked = true;
+                            //this.ChkCharLevel.Checked = true;
+                            this.ChkCharLevel.Checked = false; // 06/06/2026
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.TrackChanges:
                             this.ChkLineThrough.Enabled = false;
@@ -267,6 +269,7 @@ namespace TextDiffToHtml
                             this.ChkIdenticalLines.Checked = true;
                             this.ChkIdenticalParts.Checked = true;
                             this.ChkMonospacedFont.Checked = false;
+                            this.ChkCharLevel.Checked = true; // 06/06/2026
                             break;
                     }
                     break;
@@ -286,7 +289,7 @@ namespace TextDiffToHtml
                             this.ChkIdenticalLines.Enabled = true;
                             this.ChkIdenticalParts.Enabled = true;
                             this.ChkMonospacedFont.Enabled = true;
-                            this.ChkCharLevel.Checked = true;
+                            this.ChkCharLevel.Checked = true; // 06/06/2026 Mandatory for DiffLib inline
                             this.ChkLineThrough.Checked = false;
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
@@ -295,11 +298,46 @@ namespace TextDiffToHtml
                             this.ChkLineThrough.Enabled = true;
                             this.ChkMonospacedFont.Enabled = true;
                             this.ChkIdenticalParts.Checked = true; // No choice
+                            this.ChkCharLevel.Checked = true; // 06/06/2026 Mandatory for DiffLib compact
                             break;
                         case TextDiffToHtmlEnums.DisplayModeEnum.TrackChanges:
                             this.ChkIdenticalParts.Enabled = true;
                             this.ChkLineThrough.Enabled = true;
                             this.ChkMonospacedFont.Enabled = true;
+                            this.ChkCharLevel.Checked = true; // 06/06/2026 Mandatory for DiffLib track changes
+                            break;
+                    }
+                    break;
+
+                case TextDiffToHtmlEnums.LibraryEnum.TextDiffSharp: // 06/06/2026
+                    switch (displayMode)
+                    {
+                        case TextDiffToHtmlEnums.DisplayModeEnum.SideBySide:
+                            this.ChkIdenticalLines.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkCharLevel.Checked = false;
+                            break;
+                        case TextDiffToHtmlEnums.DisplayModeEnum.Inline:
+                            this.ChkIdenticalLines.Enabled = true;
+                            this.ChkIdenticalParts.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkCharLevel.Checked = false;
+                            this.ChkLineThrough.Checked = false;
+                            break;
+                        case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
+                            this.ChkIdenticalLines.Enabled = true;
+                            this.ChkLineThrough.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkIdenticalParts.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkCharLevel.Checked = false;
+                            break;
+                        case TextDiffToHtmlEnums.DisplayModeEnum.TrackChanges:
+                            this.ChkIdenticalLines.Enabled = true;
+                            this.ChkLineThrough.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkIdenticalParts.Checked = true;
+                            this.ChkCharLevel.Checked = false; 
                             break;
                     }
                     break;
@@ -521,6 +559,59 @@ namespace TextDiffToHtml
                                 this.ChkMonospacedFont.Checked,
                                 this.htmlRenderer, prm.averageLength);
                             html += htmlDiffLibTC;
+                            this.CmdCancel.Enabled = false;
+                            this.htmlRenderer.Init();
+                            UpdateTitle();
+                            break;
+                    }
+                    break;
+
+                case TextDiffToHtmlEnums.LibraryEnum.TextDiffSharp:
+                    switch (displayMode)
+                    {
+                        case TextDiffToHtmlEnums.DisplayModeEnum.SideBySide:
+                            var htmlTextDiffSharpSideBySide = "";
+                            if (samples) htmlTextDiffSharpSideBySide = "<br>" + this.LbSample.Text +
+                                    ": TextDiff.Sharp side by side<br>\n";
+                            htmlTextDiffSharpSideBySide += TextDiffSharpAPI.TextDiffSideBySide(left, right,
+                                this.ChkIdenticalLines.Checked,
+                                this.ChkMonospacedFont.Checked);
+                            html += htmlTextDiffSharpSideBySide;
+                            break;
+
+                        case TextDiffToHtmlEnums.DisplayModeEnum.Inline:
+                            var htmlTextDiffSharpInline = "";
+                            if (samples) htmlTextDiffSharpInline = "<br>" + this.LbSample.Text +
+                                    ": TextDiff.Sharp inline<br>\n";
+                            htmlTextDiffSharpInline += TextDiffSharpAPI.TextDiffInline(left, right,
+                                this.ChkIdenticalLines.Checked,
+                                this.ChkIdenticalParts.Checked,
+                                this.ChkMonospacedFont.Checked);
+                            html += htmlTextDiffSharpInline;
+                            break;
+
+                        case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
+                            var htmlTextDiffSharpCompact = "";
+                            if (samples) htmlTextDiffSharpCompact = "<br>" + this.LbSample.Text +
+                                    ": TextDiff.Sharp compact<br>\n";
+                            htmlTextDiffSharpCompact += TextDiffSharpAPI.TextDiffCompact(left, right,
+                                this.ChkIdenticalLines.Checked,
+                                this.ChkIdenticalParts.Checked,
+                                this.ChkLineThrough.Checked,
+                                this.ChkMonospacedFont.Checked);
+                            html += htmlTextDiffSharpCompact;
+                            break;
+
+                        case TextDiffToHtmlEnums.DisplayModeEnum.TrackChanges:
+                            this.CmdCancel.Enabled = true;
+                            var htmlTextDiffSharpTC = "";
+                            if (samples) htmlTextDiffSharpTC = "<br>" + this.LbSample.Text +
+                                    ": TextDiff.Sharp track changes<br>\n";
+                            htmlTextDiffSharpTC += TextDiffSharpAPI.TextDiffTrackChanges(left, right,
+                                this.ChkIdenticalLines.Checked,
+                                this.ChkLineThrough.Checked,
+                                this.ChkMonospacedFont.Checked);
+                            html += htmlTextDiffSharpTC;
                             this.CmdCancel.Enabled = false;
                             this.htmlRenderer.Init();
                             UpdateTitle();

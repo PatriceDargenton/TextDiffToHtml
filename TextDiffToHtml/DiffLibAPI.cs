@@ -232,7 +232,7 @@ This is the final equal line";
 
         #region Inline
         
-        private class DiffLineData
+        private class DiffLineData // use DiffSection from DiffLib
         {
             public int? L { get; set; } // Left line number
             public int? R { get; set; } // Right line number
@@ -241,7 +241,8 @@ This is the final equal line";
             public string? Right { get; set; }
             public List<DiffLib.DiffSection>? CharSections { get; set; }
         }
-
+        
+        // Char level mode: true
         public static string TextDiffInline(string left, string right, 
             bool showIdenticalLines = true, bool showIdenticalParts = true, 
             bool monospacedFont = true)
@@ -477,6 +478,7 @@ This is the final equal line";
 
         #region Compact
 
+        // Char level mode: true
         static public string TextDiffCompactSplitByLine(string left, string right, 
             bool showIdenticalLines = true, bool showIdenticalParts = true,
             bool linethrough = true, bool monospacedFont = true)
@@ -600,11 +602,27 @@ This is the final equal line";
 
         #region Track changes
 
+        // Char level mode: true
         static public string TextDiffTrackChangesSplitByChar(string left, string right,
                 bool showIdenticalParts = true, bool linethrough = true, bool monospacedFont = false, 
                 HtmlRenderer? renderer = null, long? averageLength = 0)
         {
             var timeStart1 = DateTime.Now;
+
+            // 06/06/2026 Limit the text size !
+            if (left.Length > Const.maxTextSizeForTrackChanges || 
+                right.Length > Const.maxTextSizeForTrackChanges)
+            {
+                var msg = "";// $"Text size exceeds the limit of {Const.maxTextSizeForTrackChanges} characters for track changes mode.";
+                if (left.Length > Const.maxTextSizeForTrackChanges)
+                    msg += $"<p>Left text size: {left.Length} characters.</p>";
+                if (right.Length > Const.maxTextSizeForTrackChanges)
+                    msg += $"<p>Right text size: {right.Length} characters.</p>";
+                msg += $"<p>Text is too long (>{Const.maxTextSizeForTrackChanges} characters) to be compared with track changes mode. " +
+                    "Please use another display mode.</p>";
+                return msg;
+            }
+
             // ToDo: there should be a better way to do this:
             var sections = Diff.CalculateSections(left.ToCharArray(), right.ToCharArray());
 
