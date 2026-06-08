@@ -29,8 +29,13 @@ namespace TextDiffToHtml
 
             Bridge = new ScriptingBridge(webBrowser, true);
             Bridge.Initialized += new EventHandler(Bridge_Initialized);
-
+            
+            LbLibrary.Items.Clear();
+            LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffPlex);
+            LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffLib);
+            LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.TextDiffSharp);
             LbLibrary.SelectedIndex = 0;
+
             LbDisplayMode.Items.Clear();
             LbDisplayMode.Items.Add(TextDiffToHtmlEnums.DisplayModeEnum.SideBySide.ToShortDescription());
             LbDisplayMode.Items.Add(TextDiffToHtmlEnums.DisplayModeEnum.Inline.ToShortDescription());

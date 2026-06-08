@@ -60,7 +60,6 @@
             // LbLibrary
             // 
             LbLibrary.FormattingEnabled = true;
-            LbLibrary.Items.AddRange(new object[] { "DiffPlex", "DiffLib", "TextDiffSharp" });
             LbLibrary.Location = new Point(26, 21);
             LbLibrary.Name = "LbLibrary";
             LbLibrary.Size = new Size(101, 49);
