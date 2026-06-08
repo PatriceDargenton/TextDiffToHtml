@@ -113,14 +113,14 @@ namespace TextDiffToHtml
             var lenLeft = fiLeft.Length;
             var lenRight = fiRight.Length;
             var averageLength  = (lenLeft + lenRight)/2;
-            averageLength = averageLength / 1024; // Kb
+            averageLength /= 1024; // Kb
 
             if (Properties.Settings.Default.PreviewHtml) 
             { 
                 var frm = new FrmTextDiffToHtml { prm = prm };
                 frm.prm.LeftText = left;
                 frm.prm.RightText = right;
-                frm.prm.averageLength = averageLength;
+                frm.prm.AverageLength = averageLength;
                 Application.Run(frm);
             }
             else 

@@ -562,7 +562,7 @@ namespace TextDiffToHtml
                             htmlDiffLibTC += DiffLibAPI.TextDiffTrackChangesSplitByChar(left, right,
                                 this.ChkIdenticalParts.Checked, this.ChkLineThrough.Checked,
                                 this.ChkMonospacedFont.Checked,
-                                this.htmlRenderer, prm.averageLength);
+                                this.htmlRenderer, prm.AverageLength);
                             html += htmlDiffLibTC;
                             this.CmdCancel.Enabled = false;
                             this.htmlRenderer.Init();

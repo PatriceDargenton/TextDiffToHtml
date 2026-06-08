@@ -14,7 +14,7 @@ namespace TextDiffToHtml
         public bool LineThrough { get; set; }
         public bool CharLevel { get; set; }
         public bool MonospacedFont { get; set; }
-        public long averageLength { get; set; }
+        public long AverageLength { get; set; }
         public bool SwapLeftRight { get; set; }
     }
 
