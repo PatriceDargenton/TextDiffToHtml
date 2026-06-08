@@ -480,7 +480,7 @@ This is the final equal line";
 
         // Char level mode: true
         static public string TextDiffCompactSplitByLine(string left, string right, 
-            bool showIdenticalLines = true, bool showIdenticalParts = true,
+            bool showIdenticalLines = true, /* bool showIdenticalParts = true, */
             bool linethrough = true, bool monospacedFont = true)
         {
             var leftArray = left.Split(Const.newlineChar);
@@ -489,12 +489,12 @@ This is the final equal line";
             var aligner = new StringSimilarityDiffElementAligner();
             var nullableAligner = (IDiffElementAligner<string?>)aligner;
             var elements = Diff.AlignElements(leftArray, rightArray, sections, nullableAligner);
-            return DumpDiffElementCompact(elements, showIdenticalLines, showIdenticalParts, 
+            return DumpDiffElementCompact(elements, showIdenticalLines, /* showIdenticalParts, */
                 linethrough, monospacedFont);
         }
 
         static string DumpDiffElementCompact(IEnumerable<DiffElement<string?>> elements, 
-            bool showIdenticalLines, bool showIdenticalParts, bool linethrough, bool monospacedFont)
+            bool showIdenticalLines, /* bool showIdenticalParts, */ bool linethrough, bool monospacedFont)
         {
             var html = new StringBuilder();
             if (monospacedFont) html.Append($"<div style='font-family: {Const.htmlMonospacedFont};'>");

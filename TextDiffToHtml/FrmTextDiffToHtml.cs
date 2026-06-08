@@ -550,7 +550,7 @@ namespace TextDiffToHtml
                             if (samples) htmlDiffLibCompact = "<br> " + this.LbSample.Text +
                                     ": DiffLib compact<br>\n";
                             htmlDiffLibCompact += DiffLibAPI.TextDiffCompactSplitByLine(left, right,
-                                this.ChkIdenticalLines.Checked, this.ChkIdenticalParts.Checked,
+                                this.ChkIdenticalLines.Checked, /* this.ChkIdenticalParts.Checked, */
                                 this.ChkLineThrough.Checked, this.ChkMonospacedFont.Checked);
                             html += htmlDiffLibCompact;
                             break;
