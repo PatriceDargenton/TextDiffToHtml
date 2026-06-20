@@ -1,8 +1,10 @@
+
+// https://github.com/iyulab/TextDiff
+// https://www.nuget.org/packages/TextDiff.Sharp
+
 using System.Text;
 using DiffPlex;
-using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
-//using DiffLib;
 using TextDiff;
 
 namespace TextDiffToHtml
@@ -404,7 +406,7 @@ namespace TextDiffToHtml
 
         #region Track Changes
 
-        // Char level mode: false
+        // Char level mode: false : Best algorithm for Track Changes diff, even if it is not in char level mode
         public static string TextDiffTrackChanges(string left, string right,
             bool showIdenticalLines = true, bool linethrough = true,
             bool monospacedFont = false)

@@ -6,6 +6,10 @@ All notable changes to the TextDiffToHtml project will be documented in this fil
 ### Changed
 ### Added
 
+## [1.05] - 2025-06-20
+### Added
+- [CSharpDiff library](https://github.com/thomashambach/csharpdiff)
+
 ## [1.04] - 2025-06-06
 ### Added
 - [TextDiff.Sharp library](https://github.com/iyulab/TextDiff)

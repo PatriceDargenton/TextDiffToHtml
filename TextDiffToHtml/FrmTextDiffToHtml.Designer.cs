@@ -62,7 +62,7 @@
             LbLibrary.FormattingEnabled = true;
             LbLibrary.Location = new Point(26, 21);
             LbLibrary.Name = "LbLibrary";
-            LbLibrary.Size = new Size(101, 49);
+            LbLibrary.Size = new Size(101, 64);
             LbLibrary.TabIndex = 3;
             LbLibrary.SelectedIndexChanged += LbLibrary_SelectedIndexChanged;
             // 
@@ -79,10 +79,10 @@
             // LbSample
             // 
             LbSample.FormattingEnabled = true;
-            LbSample.Items.AddRange(new object[] { "Sample 1", "Sample 2", "Sample 3" });
-            LbSample.Location = new Point(717, 21);
+            LbSample.Items.AddRange(new object[] { "Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5" });
+            LbSample.Location = new Point(717, 6);
             LbSample.Name = "LbSample";
-            LbSample.Size = new Size(101, 49);
+            LbSample.Size = new Size(101, 79);
             LbSample.TabIndex = 5;
             LbSample.SelectedIndexChanged += LbSample_SelectedIndexChanged;
             // 

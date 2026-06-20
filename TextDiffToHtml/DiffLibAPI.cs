@@ -1,5 +1,6 @@
 ﻿
 // https://github.com/lassevk/DiffLib
+// https://www.nuget.org/packages/difflib
 
 using DiffLib;
 using DiffLib.Alignment;
@@ -48,6 +49,7 @@ This is the final equal line";
 
         #region Side by side
 
+        // Char level mode: true : Best algorithm for Side by Side diff
         public static string TextDiffSideBySideSplitByLine(string left, string right,
             bool showIdenticalLines, bool charLevel = false, bool linethrough = false, 
             bool monospacedFont = false)
@@ -241,8 +243,8 @@ This is the final equal line";
             public string? Right { get; set; }
             public List<DiffLib.DiffSection>? CharSections { get; set; }
         }
-        
-        // Char level mode: true
+
+        // Char level mode: true : Best algorithm for Inline diff
         public static string TextDiffInline(string left, string right, 
             bool showIdenticalLines = true, bool showIdenticalParts = true, 
             bool monospacedFont = true)
@@ -478,7 +480,7 @@ This is the final equal line";
 
         #region Compact
 
-        // Char level mode: true
+        // Char level mode: true : Best algorithm for Compact diff
         static public string TextDiffCompactSplitByLine(string left, string right, 
             bool showIdenticalLines = true, /* bool showIdenticalParts = true, */
             bool linethrough = true, bool monospacedFont = true)

@@ -219,6 +219,37 @@ namespace TextDiffToHtml
                             prm.MonospacedFont);
                     }
                 }
+                else if (prm.Library == TextDiffToHtmlEnums.LibraryEnum.CSharpDiff)
+                {
+                    if (prm.DisplayMode == TextDiffToHtmlEnums.DisplayModeEnum.SideBySide)
+                    {
+                        html = CSharpDiffAPI.TextDiffSideBySide(left, right,
+                            prm.ShowIdenticalLines,
+                            prm.MonospacedFont);
+                    }
+                    else if (prm.DisplayMode == TextDiffToHtmlEnums.DisplayModeEnum.Inline)
+                    {
+                        html = CSharpDiffAPI.TextDiffInline(left, right,
+                            prm.ShowIdenticalLines,
+                            prm.ShowIdenticalParts,
+                            prm.MonospacedFont);
+                    }
+                    else if (prm.DisplayMode == TextDiffToHtmlEnums.DisplayModeEnum.Compact)
+                    {
+                        html = CSharpDiffAPI.TextDiffCompact(left, right,
+                            prm.ShowIdenticalLines,
+                            prm.ShowIdenticalParts,
+                            prm.LineThrough,
+                            prm.MonospacedFont);
+                    }
+                    else
+                    {
+                        html = CSharpDiffAPI.TextDiffTrackChanges(left, right,
+                            prm.ShowIdenticalLines,
+                            prm.LineThrough,
+                            prm.MonospacedFont);
+                    }
+                }
 
                 File.WriteAllText(filePath, html);
                 Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });

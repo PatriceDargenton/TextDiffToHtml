@@ -15,6 +15,8 @@ namespace TextDiffToHtml
             DiffLib,
             [Description("Compare using TextDiff.Sharp")] // https://github.com/iyulab/TextDiff
             TextDiffSharp,
+            [Description("Compare using CSharpDiff")] // https://github.com/thomashambach/csharpdiff
+            CSharpDiff,
             //[Description("Compare using DiffMatchPatch")] // https://github.com/google/diff-match-patch
             //DiffMatchPatch,
         }

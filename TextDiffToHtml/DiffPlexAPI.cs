@@ -1,6 +1,7 @@
 
 // https://github.com/Aiikon/TextDiff
 // https://github.com/mmanela/diffplex
+// https://www.nuget.org/packages/DiffPlex
 
 using System.Text;
 using DiffPlex;
@@ -415,7 +416,8 @@ XYZ";
 
         #region Track changes
 
-        // Char level mode: true
+        // Char level mode: true : This would have been the best algorithm if
+        //  identical lines could be masked (showIdenticalLines = false)
         static public string TextDiffTrackChanges(string left, string right)
         {
             // Use DiffMatchPatch version

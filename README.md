@@ -2,7 +2,7 @@
 Side by side Text diff to html in C#
 ---
 
-This source is the C# conversion of this PowerShell script:
+Originally, this source is the C# conversion of this PowerShell script:
 
 https://github.com/Aiikon/TextDiff
 
@@ -18,9 +18,11 @@ based on the DiffLib library:
 
 https://github.com/lassevk/DiffLib
 
-A third algorithm has also been added:
+Then, other algorithms were added:
 
 https://github.com/iyulab/TextDiff
+
+https://github.com/thomashambach/csharpdiff
 
 Aiikon presents two interesting views of the DiffPlex library: a side-by-side view and an inline view. The DiffLib example, on the other hand, presents another view: a compact view. The goal of TextDiffToHtml is therefore to test comparison libraries using some of the best display methods.
 ```
@@ -44,7 +46,7 @@ See the [samples](http://patrice.dargenton.free.fr/CodesSources/TextDiffToHtmlSa
 [DiffMatchPatch](https://github.com/google/diff-match-patch) is also used as the tool behind the Track Changes mode of the DiffPlex library. For DiffLib, the Track Changes mode implementation is poor, it should probably be optimized.
 
 # Keywords
-TextDiff, Text comparison, DiffPlex, DiffLib, DiffMatchPatch.
+TextDiff, Text comparison, DiffPlex, DiffLib, TextDiff.Sharp, CSharpDiff, DiffMatchPatch.
 
 # Table of content
 - [Keywords](#keywords)
@@ -57,7 +59,7 @@ TextDiff, Text comparison, DiffPlex, DiffLib, DiffMatchPatch.
 - [Links](#links)
 
 # Features
-- DiffPlex, DiffLib and TextDiff.Sharp libraries are available;
+- DiffPlex, DiffLib, TextDiff.Sharp and CSharpDiff libraries are available;
 - Side by side, Inline, Compact and Track changes display modes are available;
 - Using [Vereyon's WebBrowser control](https://github.com/Vereyon/WebBrowser), it is possible to render the html in the Winform screen, before showing it your favorite Web browser. Note: Some HTML display styles does not work in the preview browser, they are only available in the external web browser: for example, maximum HTML column sizes (max-width: 100vw).
 
@@ -71,7 +73,7 @@ TextDiff, Text comparison, DiffPlex, DiffLib, DiffMatchPatch.
 
 - 4 arguments: ShowIdenticalLines/HideIdenticalLines, DisplayMode, Full file path of the first file, Full file path of the second file
 
-- 5 arguments: Library (DiffPlex/DiffLib/TextDiffSharp), ShowIdenticalLines/HideIdenticalLines, DisplayMode, Full file path of the first file, Full file path of the second file
+- 5 arguments: Library (DiffPlex/DiffLib/TextDiffSharp/CSharpDiff), ShowIdenticalLines/HideIdenticalLines, DisplayMode, Full file path of the first file, Full file path of the second file
 
 ## SendTo menu
 Put a shortcut to TextDiffToHtml.exe into the SendTo menu and then select two files to compare and send them to this shortcut.
@@ -89,6 +91,7 @@ This project relies on the following NuGet packages:
 - [DiffPlex](https://www.nuget.org/packages/DiffPlex/) ![NuGet](https://img.shields.io/nuget/v/DiffPlex.svg)
 - [DiffLib](https://www.nuget.org/packages/DiffLib/) ![NuGet](https://img.shields.io/nuget/v/DiffLib.svg)
 - [TextDiff.Sharp](https://www.nuget.org/packages/TextDiff.Sharp/) ![NuGet](https://img.shields.io/nuget/v/TextDiff.Sharp.svg)
+- [CSharpDiff](https://www.nuget.org/packages/CSharpDiff/) ![NuGet](https://img.shields.io/nuget/v/CSharpDiff.svg)
 - [DiffMatchPatch](https://www.nuget.org/packages/DiffMatchPatch/) ![NuGet](https://img.shields.io/nuget/v/DiffMatchPatch.svg)
 - [Vereyon.Windows.WebBrowser](https://www.nuget.org/packages/Vereyon.Windows.WebBrowser/) ![NuGet](https://img.shields.io/nuget/v/Vereyon.Windows.WebBrowser.svg)
 - [Enums.Net](https://www.nuget.org/packages/Enums.Net/) ![NuGet](https://img.shields.io/nuget/v/Enums.Net.svg)

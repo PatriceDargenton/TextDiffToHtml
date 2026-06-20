@@ -34,6 +34,7 @@ namespace TextDiffToHtml
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffPlex);
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffLib);
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.TextDiffSharp);
+            LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.CSharpDiff);
             LbLibrary.SelectedIndex = 0;
 
             LbDisplayMode.Items.Clear();
@@ -346,6 +347,39 @@ namespace TextDiffToHtml
                             break;
                     }
                     break;
+
+                case TextDiffToHtmlEnums.LibraryEnum.CSharpDiff:
+                    switch (displayMode)
+                    {
+                        case TextDiffToHtmlEnums.DisplayModeEnum.SideBySide:
+                            this.ChkIdenticalLines.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkCharLevel.Checked = true;
+                            this.ChkIdenticalParts.Checked = true;
+                            break;
+                        case TextDiffToHtmlEnums.DisplayModeEnum.Inline:
+                            this.ChkIdenticalLines.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkCharLevel.Checked = true;
+                            this.ChkLineThrough.Checked = false;
+                            this.ChkIdenticalParts.Checked = true;
+                            break;
+                        case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
+                            this.ChkIdenticalLines.Enabled = true;
+                            this.ChkLineThrough.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkIdenticalParts.Checked = true;
+                            this.ChkCharLevel.Checked = true;
+                            break;
+                        case TextDiffToHtmlEnums.DisplayModeEnum.TrackChanges:
+                            this.ChkIdenticalLines.Enabled = true;
+                            this.ChkLineThrough.Enabled = true;
+                            this.ChkMonospacedFont.Enabled = true;
+                            this.ChkIdenticalParts.Checked = true;
+                            this.ChkCharLevel.Checked = true;
+                            break;
+                    }
+                    break;
             }
             activation = false;
         }
@@ -458,6 +492,15 @@ namespace TextDiffToHtml
                     case "Sample 3":
                         left = DiffLibAPI.LassevkLeftSample2;
                         right = DiffLibAPI.LassevkRightSample2;
+                        break;
+
+                    case "Sample 4":
+                        left = CSharpDiffAPI.LeftSentenceSample;
+                        right = CSharpDiffAPI.RightSentenceSample;
+                        break;
+                    case "Sample 5":
+                        left = CSharpDiffAPI.LeftLineSample;
+                        right = CSharpDiffAPI.RightLineSample;
                         break;
                 }
                 if (this.ChkSwapLeftRight.Checked)
@@ -620,6 +663,55 @@ namespace TextDiffToHtml
                             this.CmdCancel.Enabled = false;
                             this.htmlRenderer.Init();
                             UpdateTitle();
+                            break;
+                    }
+                    break;
+
+                case TextDiffToHtmlEnums.LibraryEnum.CSharpDiff:
+                    switch (displayMode)
+                    {
+                        case TextDiffToHtmlEnums.DisplayModeEnum.SideBySide:
+                            var htmlCSharpDiffSideBySide = "";
+                            if (samples) htmlCSharpDiffSideBySide = "<br>" + this.LbSample.Text +
+                                    ": CSharpDiff side by side<br>\n";
+                            htmlCSharpDiffSideBySide += CSharpDiffAPI.TextDiffSideBySide(left, right,
+                                this.ChkIdenticalLines.Checked,
+                                this.ChkMonospacedFont.Checked);
+                            html += htmlCSharpDiffSideBySide;
+                            break;
+
+                        case TextDiffToHtmlEnums.DisplayModeEnum.Inline:
+                            var htmlCSharpDiffInline = "";
+                            if (samples) htmlCSharpDiffInline = "<br>" + this.LbSample.Text +
+                                    ": CSharpDiff inline<br>\n";
+                            htmlCSharpDiffInline += CSharpDiffAPI.TextDiffInline(left, right,
+                                this.ChkIdenticalLines.Checked,
+                                this.ChkIdenticalParts.Checked,
+                                this.ChkMonospacedFont.Checked);
+                            html += htmlCSharpDiffInline;
+                            break;
+
+                        case TextDiffToHtmlEnums.DisplayModeEnum.Compact:
+                            var htmlCSharpDiffCompact = "";
+                            if (samples) htmlCSharpDiffCompact = "<br>" + this.LbSample.Text +
+                                    ": CSharpDiff compact<br>\n";
+                            htmlCSharpDiffCompact += CSharpDiffAPI.TextDiffCompact(left, right,
+                                this.ChkIdenticalLines.Checked,
+                                this.ChkIdenticalParts.Checked,
+                                this.ChkLineThrough.Checked,
+                                this.ChkMonospacedFont.Checked);
+                            html += htmlCSharpDiffCompact;
+                            break;
+
+                        case TextDiffToHtmlEnums.DisplayModeEnum.TrackChanges:
+                            var htmlCSharpDiffTC = "";
+                            if (samples) htmlCSharpDiffTC = "<br>" + this.LbSample.Text +
+                                    ": CSharpDiff track changes<br>\n";
+                            htmlCSharpDiffTC += CSharpDiffAPI.TextDiffTrackChanges(left, right,
+                                this.ChkIdenticalLines.Checked,
+                                this.ChkLineThrough.Checked,
+                                this.ChkMonospacedFont.Checked);
+                            html += htmlCSharpDiffTC;
                             break;
                     }
                     break;
