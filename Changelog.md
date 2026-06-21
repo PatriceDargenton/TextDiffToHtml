@@ -6,8 +6,9 @@ All notable changes to the TextDiffToHtml project will be documented in this fil
 ### Changed
 ### Added
 
-## [1.05] - 2025-06-20
+## [1.05] - 2025-06-21
 ### Added
+- Buttons to add and remove a "Send To" shortcut to TextDiffToHtml in the Windows Explorer context menu
 - [CSharpDiff library](https://github.com/thomashambach/csharpdiff)
 
 ## [1.04] - 2025-06-06

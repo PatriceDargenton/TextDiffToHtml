@@ -42,6 +42,8 @@
             ChkCharLevel = new CheckBox();
             ChkIdenticalParts = new CheckBox();
             toolTip1 = new ToolTip(components);
+            CmdAddShortcut = new Button();
+            CmdRemoveShortcut = new Button();
             CmdCancel = new Button();
             ChkSwapLeftRight = new CheckBox();
             SuspendLayout();
@@ -88,7 +90,7 @@
             // 
             // CmdWebBrowser
             // 
-            CmdWebBrowser.Location = new Point(514, 36);
+            CmdWebBrowser.Location = new Point(515, 12);
             CmdWebBrowser.Name = "CmdWebBrowser";
             CmdWebBrowser.Size = new Size(70, 29);
             CmdWebBrowser.TabIndex = 6;
@@ -163,10 +165,32 @@
             ChkIdenticalParts.UseVisualStyleBackColor = true;
             ChkIdenticalParts.CheckedChanged += ChkIdenticalParts_CheckedChanged;
             // 
+            // CmdAddShortcut
+            // 
+            CmdAddShortcut.Location = new Point(604, 12);
+            CmdAddShortcut.Name = "CmdAddShortcut";
+            CmdAddShortcut.Size = new Size(29, 29);
+            CmdAddShortcut.TabIndex = 14;
+            CmdAddShortcut.Text = "+";
+            toolTip1.SetToolTip(CmdAddShortcut, "Add a \"Send To\" shortcut to TextDiffToHtml in the Windows Explorer context menu");
+            CmdAddShortcut.UseVisualStyleBackColor = true;
+            CmdAddShortcut.Click += CmdAddShortcut_Click;
+            // 
+            // CmdRemoveShortcut
+            // 
+            CmdRemoveShortcut.Location = new Point(639, 12);
+            CmdRemoveShortcut.Name = "CmdRemoveShortcut";
+            CmdRemoveShortcut.Size = new Size(29, 29);
+            CmdRemoveShortcut.TabIndex = 15;
+            CmdRemoveShortcut.Text = "-";
+            toolTip1.SetToolTip(CmdRemoveShortcut, "Remove the \"Send To\" shortcut from Windows Explorer");
+            CmdRemoveShortcut.UseVisualStyleBackColor = true;
+            CmdRemoveShortcut.Click += CmdRemoveShortcut_Click;
+            // 
             // CmdCancel
             // 
             CmdCancel.Enabled = false;
-            CmdCancel.Location = new Point(617, 36);
+            CmdCancel.Location = new Point(515, 47);
             CmdCancel.Name = "CmdCancel";
             CmdCancel.Size = new Size(70, 29);
             CmdCancel.TabIndex = 12;
@@ -190,6 +214,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(831, 589);
+            Controls.Add(CmdRemoveShortcut);
+            Controls.Add(CmdAddShortcut);
             Controls.Add(ChkSwapLeftRight);
             Controls.Add(CmdCancel);
             Controls.Add(ChkIdenticalParts);
@@ -228,5 +254,7 @@
         private ToolTip toolTip1;
         private Button CmdCancel;
         private CheckBox ChkSwapLeftRight;
+        private Button CmdAddShortcut;
+        private Button CmdRemoveShortcut;
     }
 }

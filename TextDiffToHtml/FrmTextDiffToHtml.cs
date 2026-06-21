@@ -20,6 +20,12 @@ namespace TextDiffToHtml
         private bool init = false;
         private string htmlResultFilePath = "";
 
+        private const string ExeTextDiffToHtml = "TextDiffToHtml.exe";
+        private const string ShortcutTextDiffToHtml = ExeTextDiffToHtml + ".lnk";
+        private string _shortcutPath =
+            Environment.GetFolderPath(Environment.SpecialFolder.SendTo) +
+            "\\" + ShortcutTextDiffToHtml;
+
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ScriptingBridge Bridge { get; private set; }
 
@@ -29,7 +35,7 @@ namespace TextDiffToHtml
 
             Bridge = new ScriptingBridge(webBrowser, true);
             Bridge.Initialized += new EventHandler(Bridge_Initialized);
-            
+
             LbLibrary.Items.Clear();
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffPlex);
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffLib);
@@ -68,7 +74,7 @@ namespace TextDiffToHtml
 
             txt = EnumHelper.GetEnumDescription<CharLevelEnum>();
             toolTip1.SetToolTip(ChkCharLevel, txt);
-            
+
             txt = EnumHelper.GetEnumDescription<SwapLeftRightEnum>();
             toolTip1.SetToolTip(ChkSwapLeftRight, txt);
 
@@ -78,6 +84,22 @@ namespace TextDiffToHtml
             toolTip1.SetToolTip(CmdCancel, "Click to cancel a long operation");
 
             toolTip1.SetToolTip(LbSample, "Choose a sample to test");
+
+            bool configMode = true;
+            if (!String.IsNullOrEmpty(prm.LeftText) && 
+                !String.IsNullOrEmpty(prm.RightText)) configMode = false;
+            if (configMode)
+            {
+                CmdAddShortcut.Visible = true;
+                CmdRemoveShortcut.Visible = true;
+                CheckShortcut();
+                return;
+            }
+            else
+            {
+                CmdAddShortcut.Visible = false;
+                CmdRemoveShortcut.Visible = false;
+            }
         }
 
         private void UpdateTitle()
@@ -343,7 +365,7 @@ namespace TextDiffToHtml
                             this.ChkLineThrough.Enabled = true;
                             this.ChkMonospacedFont.Enabled = true;
                             this.ChkIdenticalParts.Checked = true;
-                            this.ChkCharLevel.Checked = false; 
+                            this.ChkCharLevel.Checked = false;
                             break;
                     }
                     break;
@@ -718,6 +740,28 @@ namespace TextDiffToHtml
             }
             html += Const.htmlEnd;
             return html;
+        }
+        
+        private void CheckShortcut()
+        {
+            bool exists = File.Exists(_shortcutPath);
+            CmdAddShortcut.Enabled = !exists;
+            CmdRemoveShortcut.Enabled = exists;
+        }
+
+        private void CmdAddShortcut_Click(object sender, EventArgs e)
+        {
+            string link = _shortcutPath;
+            string target = Application.StartupPath + "\\" + ExeTextDiffToHtml;
+            Shortcut.Helper.ShortcutHelper.CreateShortcut(ref link, ref target);
+            CheckShortcut();
+        }
+
+        private void CmdRemoveShortcut_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists(_shortcutPath)) return;
+            File.Delete(_shortcutPath);
+            CheckShortcut();
         }
     }
 }
