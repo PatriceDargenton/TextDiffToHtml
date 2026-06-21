@@ -102,4 +102,8 @@ See [Changelog.md](Changelog.md)
 
 # Links
 
-See also: [VBWinDiff](https://github.com/PatriceDargenton/VBWinDiff) (french)
+See also:
+
+- [TextDiffOptions](https://github.com/PatriceDargenton/TextDiffOptions)
+
+- [VBWinDiff](https://github.com/PatriceDargenton/VBWinDiff) (french)
