@@ -83,23 +83,7 @@ namespace TextDiffToHtml
 
             toolTip1.SetToolTip(CmdCancel, "Click to cancel a long operation");
 
-            toolTip1.SetToolTip(LbSample, "Choose a sample to test");
-
-            bool configMode = true;
-            if (!String.IsNullOrEmpty(prm.LeftText) && 
-                !String.IsNullOrEmpty(prm.RightText)) configMode = false;
-            if (configMode)
-            {
-                CmdAddShortcut.Visible = true;
-                CmdRemoveShortcut.Visible = true;
-                CheckShortcut();
-                return;
-            }
-            else
-            {
-                CmdAddShortcut.Visible = false;
-                CmdRemoveShortcut.Visible = false;
-            }
+            toolTip1.SetToolTip(LbSample, "Choose a sample to test");            
         }
 
         private void UpdateTitle()
@@ -119,13 +103,28 @@ namespace TextDiffToHtml
 
         private void FrmTextDiffToHtml_Activated(object sender, EventArgs e)
         {
-            if (this.init) return;
+            if (this.init) return; 
 
             if (string.IsNullOrEmpty(this.prm.LeftText) ||
                 string.IsNullOrEmpty(this.prm.RightText))
                 this.LbSample.Visible = true;
             else
                 this.LbSample.Visible = false;
+
+            bool configMode = false;
+            if (this.LbSample.Visible) configMode = true;
+            if (configMode)
+            {
+                CmdAddShortcut.Visible = true;
+                CmdRemoveShortcut.Visible = true;
+                CheckShortcut();
+                return;
+            }
+            else
+            {
+                CmdAddShortcut.Visible = false;
+                CmdRemoveShortcut.Visible = false;
+            }
 
             this.init = true;
             Render();
