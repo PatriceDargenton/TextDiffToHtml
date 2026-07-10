@@ -118,7 +118,6 @@ namespace TextDiffToHtml
                 CmdAddShortcut.Visible = true;
                 CmdRemoveShortcut.Visible = true;
                 CheckShortcut();
-                return;
             }
             else
             {
