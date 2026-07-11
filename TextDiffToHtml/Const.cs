@@ -4,7 +4,7 @@ namespace TextDiffToHtml
     internal class Const
     {
         public const string appTitle = "TextDiffToHtml";
-        public const string dateVersion = "21/06/2026";
+        public const string dateVersion = "11/07/2026";
 
         public const string sideBySideFile = "SideBySide.html";
         public const string inlineFile = "Inline.html";

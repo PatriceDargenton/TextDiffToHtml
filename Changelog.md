@@ -6,6 +6,10 @@ All notable changes to the TextDiffToHtml project will be documented in this fil
 ### Changed
 ### Added
 
+## [1.06] - 2025-07-11
+### Fixed
+- Initialization with shortcut buttons
+
 ## [1.05] - 2025-06-21
 ### Added
 - Buttons to add and remove a "Send To" shortcut to TextDiffToHtml in the Windows Explorer context menu
