@@ -6,7 +6,7 @@ using DiffLib;
 using DiffLib.Alignment;
 using System.Text;
 
-namespace TextDiffToHtml
+namespace TextDiffToHtml.TextDiffAPI
 {
     internal class DiffLibAPI
     {
@@ -259,7 +259,7 @@ This is the final equal line";
             {
                 if (set.Delta == "==")
                 {
-                    var record = new TextDiffToHtml.Record
+                    var record = new Record
                     {
                         L = set.L,
                         R = set.R,
@@ -270,7 +270,7 @@ This is the final equal line";
                 }
                 else if (set.Delta == "<<")
                 {
-                    var record = new TextDiffToHtml.Record
+                    var record = new Record
                     {
                         L = set.L,
                         R = null,
@@ -281,7 +281,7 @@ This is the final equal line";
                 }
                 else if (set.Delta == ">>")
                 {
-                    var record = new TextDiffToHtml.Record
+                    var record = new Record
                     {
                         L = null,
                         R = set.R,
@@ -293,7 +293,7 @@ This is the final equal line";
                 else if (set.Delta == "<>")
                 {
                     var red = HtmlColors.ToRgbString(Const.UpdateCharLevelLeft);
-                    var leftRecord = new TextDiffToHtml.Record
+                    var leftRecord = new Record
                     {
                         L = set.L,
                         R = null,
@@ -305,7 +305,7 @@ This is the final equal line";
                     sb.AppendLine(Helper.GetHtmlTableRow(leftRecord, cssClass: "redClass"));
 
                     var green = HtmlColors.ToRgbString(Const.UpdateCharLevelRight);
-                    var rightRecord = new TextDiffToHtml.Record
+                    var rightRecord = new Record
                     {
                         L = null,
                         R = set.R,

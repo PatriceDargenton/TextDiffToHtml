@@ -1,6 +1,7 @@
 
 using System.Diagnostics;
 using System.Text;
+using TextDiffToHtml.TextDiffAPI;
 using static TextDiffToHtml.TextDiffToHtmlEnums;
 
 namespace TextDiffToHtml

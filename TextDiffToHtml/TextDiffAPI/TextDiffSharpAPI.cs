@@ -7,7 +7,7 @@ using DiffPlex;
 using DiffPlex.DiffBuilder.Model;
 using TextDiff;
 
-namespace TextDiffToHtml
+namespace TextDiffToHtml.TextDiffAPI
 {
     internal class TextDiffSharpAPI
     {

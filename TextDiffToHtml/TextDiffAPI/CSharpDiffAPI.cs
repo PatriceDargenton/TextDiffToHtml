@@ -6,7 +6,7 @@ using CSharpDiff.Diffs;
 using CSharpDiff.Diffs.Models;
 using System.Text;
 
-namespace TextDiffToHtml
+namespace TextDiffToHtml.TextDiffAPI
 {
     internal class CSharpDiffAPI
     {

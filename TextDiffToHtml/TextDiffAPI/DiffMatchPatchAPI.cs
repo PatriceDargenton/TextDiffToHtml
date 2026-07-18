@@ -6,7 +6,7 @@ using DiffMatchPatch;
 
 using System.Text;
 
-namespace TextDiffToHtml
+namespace TextDiffToHtml.TextDiffAPI
 {
     internal class DiffMatchPatchAPI
     {

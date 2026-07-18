@@ -7,6 +7,7 @@ using static TextDiffToHtml.TextDiffToHtmlEnums;
 // https://www.nuget.org/packages/Vereyon.Windows.WebBrowser
 // https://github.com/Vereyon/WebBrowser
 using Vereyon.Windows;
+using TextDiffToHtml.TextDiffAPI;
 
 namespace TextDiffToHtml
 {
