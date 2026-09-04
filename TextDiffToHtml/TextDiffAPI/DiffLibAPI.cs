@@ -6,7 +6,7 @@ using DiffLib;
 using DiffLib.Alignment;
 using System.Text;
 
-namespace TextDiffToHtml.TextDiffAPI
+namespace TextDiffToHtml
 {
     internal class DiffLibAPI
     {
@@ -259,7 +259,7 @@ This is the final equal line";
             {
                 if (set.Delta == "==")
                 {
-                    var record = new Record
+                    var record = new TextDiffToHtml.Record
                     {
                         L = set.L,
                         R = set.R,
@@ -270,7 +270,7 @@ This is the final equal line";
                 }
                 else if (set.Delta == "<<")
                 {
-                    var record = new Record
+                    var record = new TextDiffToHtml.Record
                     {
                         L = set.L,
                         R = null,
@@ -281,7 +281,7 @@ This is the final equal line";
                 }
                 else if (set.Delta == ">>")
                 {
-                    var record = new Record
+                    var record = new TextDiffToHtml.Record
                     {
                         L = null,
                         R = set.R,
@@ -293,7 +293,7 @@ This is the final equal line";
                 else if (set.Delta == "<>")
                 {
                     var red = HtmlColors.ToRgbString(Const.UpdateCharLevelLeft);
-                    var leftRecord = new Record
+                    var leftRecord = new TextDiffToHtml.Record
                     {
                         L = set.L,
                         R = null,
@@ -305,7 +305,7 @@ This is the final equal line";
                     sb.AppendLine(Helper.GetHtmlTableRow(leftRecord, cssClass: "redClass"));
 
                     var green = HtmlColors.ToRgbString(Const.UpdateCharLevelRight);
-                    var rightRecord = new Record
+                    var rightRecord = new TextDiffToHtml.Record
                     {
                         L = null,
                         R = set.R,
@@ -606,8 +606,8 @@ This is the final equal line";
 
         // Char level mode: true
         static public string TextDiffTrackChangesSplitByChar(string left, string right,
-                bool showIdenticalParts = true, bool linethrough = true, bool monospacedFont = false, 
-                HtmlRenderer? renderer = null, long? averageLength = 0)
+                bool showIdenticalParts = true, bool linethrough = true, bool monospacedFont = false,
+                DiffLibLLM.HtmlRenderer? renderer = null, long? averageLength = 0)
         {
             var timeStart1 = DateTime.Now;
 
@@ -651,7 +651,7 @@ This is the final equal line";
         static string DumpDiffSectionsTrackChanges(string left, string right,
                 IEnumerable<DiffSection> sections, 
                 bool showIdenticalParts, bool monospacedFont, bool linethrough,
-                HtmlRenderer? renderer, long? averageLength)
+                DiffLibLLM.HtmlRenderer? renderer, long? averageLength)
         {
             var html = new StringBuilder();
 

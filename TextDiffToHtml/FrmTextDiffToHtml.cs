@@ -1,13 +1,16 @@
 
+using DiffLibLLM.Models;
+
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using static TextDiffToHtml.TextDiffToHtmlEnums;
+using TextDiffToHtml.TextDiffAPI;
 
 // https://www.nuget.org/packages/Vereyon.Windows.WebBrowser
 // https://github.com/Vereyon/WebBrowser
 using Vereyon.Windows;
-using TextDiffToHtml.TextDiffAPI;
 
 namespace TextDiffToHtml
 {
@@ -15,11 +18,13 @@ namespace TextDiffToHtml
     {
         public Parameter prm = new();
 
-        private readonly HtmlRenderer htmlRenderer;
+        private readonly DiffLibLLM.HtmlRenderer htmlRenderer;
 
         readonly string title = "";
         private bool init = false;
         private string htmlResultFilePath = "";
+        private IReadOnlyList<double> _renderThresholds = Array.Empty<double>();
+        private bool _updatingRenderThresholdUi = false;
 
         private const string ExeTextDiffToHtml = "TextDiffToHtml.exe";
         private const string ShortcutTextDiffToHtml = ExeTextDiffToHtml + ".lnk";
@@ -37,11 +42,51 @@ namespace TextDiffToHtml
             Bridge = new ScriptingBridge(webBrowser, true);
             Bridge.Initialized += new EventHandler(Bridge_Initialized);
 
+            LbModels.Items.Clear();
+
+#pragma warning disable CS0162
+            if (Const.debugTextDiffLMMModels)
+            {
+                LbModels.Items.Add(ModelEnum.AllMinilm.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.NomicEmbedText.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.MxbaiEmbedLarge.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.EmbeddingGemma.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.GraniteEmbedding278m.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.BgeM3.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.QllamaMultilingualE5Base.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.Qwen3Embedding06b.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.NomicEmbedTextV2Moe.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.ParaphraseMultilingual278m.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.ParaphraseMultilingual.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.ZylonaiMultilingualE5Large.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.SnowflakeArcticEmbed2.ToShortDescription());
+                LbModels.Items.Add(ModelEnum.Qwen3Embedding.ToShortDescription());
+            }
+            else 
+            {
+                if (!Properties.Settings.Default.TextDiffLLMConfigured)
+                {
+                    // Example: TextDiffLLMConfigured : true, TextDiffLLMModels : "all-minilm;nomic-embed-text"
+                    LbModels.Items.Add("[not configured]");
+                    toolTip1.SetToolTip(LbModels, "TextDiffLLM is not configured in the settings: see TextDiffLLMConfigured and TextDiffLLMModels parameters in TextDiffToHtml.dll.config");
+                }
+                else
+                {
+                    var models = Properties.Settings.Default.TextDiffLLMModels.Split(
+                        new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var model in models) LbModels.Items.Add(model);
+                }
+            }
+#pragma warning restore CS0162
+
+            LbModels.SelectedIndex = 0;
+
             LbLibrary.Items.Clear();
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffPlex);
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffLib);
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.TextDiffSharp);
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.CSharpDiff);
+            LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM);
             LbLibrary.SelectedIndex = 0;
 
             LbDisplayMode.Items.Clear();
@@ -59,7 +104,7 @@ namespace TextDiffToHtml
             this.title = this.Text + " " + versionTxt + " (" + Const.dateVersion + ")";
             UpdateTitle();
 
-            htmlRenderer = new HtmlRenderer() { OnPartialRender = RenderInWebBrowser };
+            htmlRenderer = new DiffLibLLM.HtmlRenderer() { OnPartialRender = RenderInWebBrowser };
 
             var txt = EnumHelper.GetEnumDescription<ShowIdenticalLinesEnum>();
             toolTip1.SetToolTip(ChkIdenticalLines, txt);
@@ -84,7 +129,16 @@ namespace TextDiffToHtml
 
             toolTip1.SetToolTip(CmdCancel, "Click to cancel a long operation");
 
-            toolTip1.SetToolTip(LbSample, "Choose a sample to test");            
+            toolTip1.SetToolTip(LbSample, "Choose a sample to test");
+
+            toolTip1.SetToolTip(tbGapPenalty,
+                "Insertion/deletion penalty for semantic alignment (higher value forces line matching: experimental)");
+
+            hScrollBarRender.SmallChange = 1;
+            hScrollBarRender.LargeChange = 1;
+            hScrollBarRender.Enabled = false;
+
+            SemanticActivation(activation: false);
         }
 
         private void UpdateTitle()
@@ -104,7 +158,7 @@ namespace TextDiffToHtml
 
         private void FrmTextDiffToHtml_Activated(object sender, EventArgs e)
         {
-            if (this.init) return; 
+            if (this.init) return;
 
             if (string.IsNullOrEmpty(this.prm.LeftText) ||
                 string.IsNullOrEmpty(this.prm.RightText))
@@ -238,6 +292,143 @@ namespace TextDiffToHtml
             Render();
         }
 
+        private void LbModels_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Render();
+        }
+
+        private void chkVectSamples_CheckedChanged(object sender, EventArgs e)
+        {
+            this.chkUpperCase.Enabled = false;
+            if (this.chkVectSamples.Checked) this.chkUpperCase.Enabled = true;
+            Render();
+        }
+
+        private void chkUpperCase_CheckedChanged(object sender, EventArgs e)
+        {
+            Render();
+        }
+
+        private void tbChunks_Validated(object sender, EventArgs e)
+        {
+            //Render();
+        }
+
+        //private bool _thresholdModifierByUser = false;
+        private void tbInfThreshold_Validated(object sender, EventArgs e)
+        {
+            //_thresholdModifierByUser = true;
+            //SyncScrollBarWithThresholdText();
+            //Render();
+        }
+
+        private void tbGapPenalty_Validated(object sender, EventArgs e)
+        {
+            //Render();
+        }
+        
+        private void SyncScrollBarWithThresholdText()
+        {
+            if (_renderThresholds.Count == 0) return;
+
+            var threshold = ParseThreshold(tbInfThreshold.Text, (float)_renderThresholds[0]);
+            var thresholdIndex = FindClosestThresholdIndex(threshold);
+            //Debug.WriteLine($"Threshold: {threshold}, Index: {thresholdIndex}");
+            UpdateRenderThresholdUi(_renderThresholds, thresholdIndex);
+        }
+
+        private void hScrollBarRender_ValueChanged(object sender, EventArgs e)
+        {
+            /*
+            if (_thresholdModifierByUser) 
+            { 
+                Render(); 
+                _thresholdModifierByUser = false; 
+                return; 
+            }
+            */
+
+            if (_updatingRenderThresholdUi) return;
+            if (_renderThresholds.Count == 0) return;
+
+            var index = Math.Clamp(hScrollBarRender.Value, 0, _renderThresholds.Count - 1);
+            tbInfThreshold.Text = _renderThresholds[index].ToString("0.00", CultureInfo.CurrentCulture);
+            //Debug.WriteLine("tbInfThreshold = " + tbInfThreshold.Text);
+
+            Render();
+        }
+
+        private float ParseThreshold(string text, float defaultValue)
+        {
+            if (float.TryParse(text, NumberStyles.Float, CultureInfo.CurrentCulture, out var threshold) ||
+                float.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out threshold))
+            {
+                return Math.Clamp(threshold, 0f, 1f);
+            }
+
+            return Math.Clamp(defaultValue, 0f, 1f);
+        }
+
+        private double ParseGapPenalty(string text, double defaultValue)
+        {
+            if (double.TryParse(text, NumberStyles.Float, CultureInfo.CurrentCulture, out var gapPenalty) ||
+                double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out gapPenalty))
+            {
+                return Math.Clamp(gapPenalty, 0d, 10d);
+            }
+
+            return Math.Clamp(defaultValue, 0d, 10d);
+        }
+
+        private int FindClosestThresholdIndex(float targetThreshold)
+        {
+            if (_renderThresholds.Count == 0) return 0;
+
+            var bestIndex = 0;
+            var bestDelta = double.MaxValue;
+            for (var i = 0; i < _renderThresholds.Count; i++)
+            {
+                var delta = Math.Abs(_renderThresholds[i] - targetThreshold);
+                if (delta < bestDelta)
+                {
+                    bestDelta = delta;
+                    bestIndex = i;
+                }
+            }
+
+            return bestIndex;
+        }
+
+        private void UpdateRenderThresholdUi(IReadOnlyList<double> thresholds, int selectedIndex)
+        {
+            _renderThresholds = thresholds;
+            _updatingRenderThresholdUi = true;
+            try
+            {
+                if (_renderThresholds.Count == 0)
+                {
+                    hScrollBarRender.Enabled = false;
+                    hScrollBarRender.Minimum = 0;
+                    hScrollBarRender.Maximum = 0;
+                    hScrollBarRender.Value = 0;
+                    return;
+                }
+
+                var index = Math.Clamp(selectedIndex, 0, _renderThresholds.Count - 1);
+                hScrollBarRender.Enabled = true;
+                hScrollBarRender.Minimum = 0;
+                hScrollBarRender.Maximum = _renderThresholds.Count - 1;
+                hScrollBarRender.SmallChange = 1;
+                hScrollBarRender.LargeChange = 1;
+                hScrollBarRender.Value = index;
+                tbInfThreshold.Text = _renderThresholds[index].ToString("0.00", CultureInfo.CurrentCulture);
+            }
+            finally
+            {
+                _updatingRenderThresholdUi = false;
+            }
+        }
+
         private void CmdWebBrowser_Click(object sender, EventArgs e)
         {
             Process.Start(new ProcessStartInfo(this.htmlResultFilePath) { UseShellExecute = true });
@@ -249,11 +440,19 @@ namespace TextDiffToHtml
             if (activation) return;
             activation = true;
 
+            LongOperation(activation: true);
+
             var libraryText = this.LbLibrary.Text;
             var library = TextDiffToHtmlEnums.LibraryFromValue(libraryText);
             var displayModeText = this.LbDisplayMode.Text;
             //var displayMode = TextDiffToHtmlEnums.DisplayModeFromValue(displayModeText);
             var displayMode = TextDiffToHtmlEnums.DisplayModeFromDescription(displayModeText);
+
+            // Only one display mode is available for semantic diff, so disable the display mode selection
+            var semanticDiff = false;
+            var lib = this.LbLibrary.Text;
+            if (lib == TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM.ToString()) semanticDiff = true;
+            this.LbDisplayMode.Enabled = !semanticDiff;
 
             this.ChkMonospacedFont.Enabled = false;
             this.ChkIdenticalLines.Enabled = false;
@@ -401,8 +600,84 @@ namespace TextDiffToHtml
                             break;
                     }
                     break;
+
+                case TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM:
+                    this.ChkIdenticalLines.Enabled = true;
+                    this.ChkMonospacedFont.Enabled = true;
+                    this.ChkIdenticalParts.Checked = true;
+                    this.ChkLineThrough.Checked = false;
+                    this.ChkCharLevel.Checked = false;
+
+                    if (displayMode != TextDiffToHtmlEnums.DisplayModeEnum.SideBySide)
+                    {
+                        this.LbDisplayMode.Text = TextDiffToHtmlEnums.DisplayModeEnum.SideBySide.ToShortDescription();
+                    }
+                    break;
             }
             activation = false;
+        }
+
+        private void SemanticActivation(bool activation)
+        {
+            this.chkVectSamples.Enabled = activation;
+            //this.chkUpperCase.Enabled = activation;
+            this.chkUpperCase.Enabled = false;
+            if (activation && this.chkVectSamples.Checked) this.chkUpperCase.Enabled = true;
+
+            this.tbInfThreshold.Enabled = activation;
+            this.tbChunks.Enabled = activation;
+            this.tbGapPenalty.Enabled = activation;
+            //this.LbDisplayMode.Enabled = activation;
+            this.LbModels.Enabled = activation;
+            this.hScrollBarRender.Enabled = activation;
+
+            // Only one display mode is available for semantic diff, so disable the display mode selection
+            var semanticDiff = false;
+            var lib = this.LbLibrary.Text;
+            if (lib == TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM.ToString()) semanticDiff = true;
+            if (semanticDiff) 
+            { 
+                this.LbDisplayMode.Enabled = false;
+                tabControlLibraryType.SelectedTab = tabPageSemanticDiff;
+            }
+            else
+            {
+                this.LbDisplayMode.Enabled = true;
+                tabControlLibraryType.SelectedTab = tabPageTextDiff;
+            }
+        }
+
+        private void LongOperation(bool activation = false)
+        {
+            this.CmdCancel.Enabled = !activation;
+
+            this.ChkMonospacedFont.Enabled = activation;
+            this.ChkIdenticalLines.Enabled = activation;
+            this.ChkIdenticalParts.Enabled = activation;
+            this.ChkLineThrough.Enabled = activation;
+            this.ChkCharLevel.Enabled = activation;
+            this.ChkSwapLeftRight.Enabled = activation;
+            this.LbLibrary.Enabled = activation;
+            this.LbDisplayMode.Enabled = activation;
+            this.LbSample.Enabled = activation;
+            this.LbModels.Enabled = activation;
+            this.chkUpperCase.Enabled = activation;
+            this.chkVectSamples.Enabled = activation;
+            this.tbChunks.Enabled = activation;
+            this.tbInfThreshold.Enabled = activation;
+            this.tbGapPenalty.Enabled = activation;
+            this.hScrollBarRender.Enabled = activation && _renderThresholds.Count > 0;
+
+            if (!activation)
+            {
+                this.CmdAddShortcut.Enabled = false;
+                this.CmdRemoveShortcut.Enabled = false;
+            }
+            else
+            {
+                this.CmdAddShortcut.Enabled = !_shortcutExists;
+                this.CmdRemoveShortcut.Enabled = _shortcutExists;
+            }
         }
 
         private void Render()
@@ -445,6 +720,12 @@ namespace TextDiffToHtml
         {
             File.WriteAllText(this.htmlResultFilePath, html);
             webBrowser.Url = new Uri(this.htmlResultFilePath);
+            webBrowser.Refresh(); // Required, otherwise, there will be a one-tick delay from this.Text update
+            //var fileUri = new Uri(this.htmlResultFilePath);
+            //var refreshUri = new Uri($"{fileUri.AbsoluteUri}?v={Environment.TickCount64}");
+            //webBrowser.Url = refreshUri;
+            //Debug.WriteLine("ShowInInternalBrowser : " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff") + " : " + html);
+            //Application.DoEvents(); // One tick late from this.Text refresh ?
         }
 
         private void RenderInWebBrowser(string text)
@@ -453,10 +734,11 @@ namespace TextDiffToHtml
             else
             {
                 ShowInInternalBrowser(text);
-                this.Text = this.title + " : " +
+                this.Text = this.title + " : " + this.htmlRenderer.status +
                     this.htmlRenderer.line + "/" +
                     this.htmlRenderer.lines + " : " +
                     this.htmlRenderer.progress.ToString("0.00") + " %";
+                //Debug.WriteLine("RenderInWebBrowser : " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff") + " : " + text);
             }
             Application.DoEvents(); // Check for cancel
         }
@@ -472,6 +754,10 @@ namespace TextDiffToHtml
             string right = "";
             //string htmlSample = Const.htmlCharset + Const.newline;
             string htmlSample = Const.htmlStart;
+
+            var semanticDiff = false;
+            var lib = this.LbLibrary.Text;
+            if (lib == TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM.ToString()) semanticDiff = true;
 
             var samples = true;
             if (!string.IsNullOrEmpty(this.prm.LeftText) &&
@@ -524,6 +810,44 @@ namespace TextDiffToHtml
                         right = CSharpDiffAPI.RightLineSample;
                         break;
                 }
+
+                if (semanticDiff)
+                {
+                    SemanticActivation(activation: true);
+
+                    switch (sample)
+                    {
+                        case "Sample 1":
+                            left = TextDiffLLMAPI.TextDiffLLMLeftSample1;
+                            right = TextDiffLLMAPI.TextDiffLLMRightSample1;
+                            break;
+
+                        case "Sample 2":
+                            left = TextDiffLLMAPI.TextDiffLLMLeftSample2;
+                            right = TextDiffLLMAPI.TextDiffLLMRightSample2;
+                            break;
+
+                        case "Sample 3":
+                            left = TextDiffLLMAPI.TextDiffLLMLeftSample3;
+                            right = TextDiffLLMAPI.TextDiffLLMRightSample3;
+                            break;
+
+                        case "Sample 4":
+                            left = TextDiffLLMAPI.TextDiffLLMLeftSample4;
+                            right = TextDiffLLMAPI.TextDiffLLMRightSample4;
+                            break;
+
+                        case "Sample 5":
+                            left = TextDiffLLMAPI.TextDiffLLMLeftSample5;
+                            right = TextDiffLLMAPI.TextDiffLLMRightSample5;
+                            break;
+                    }
+                }
+                else
+                {
+                    SemanticActivation(activation: false);
+                }
+
                 if (this.ChkSwapLeftRight.Checked)
                 {
                     // Swap left and right texts
@@ -531,13 +855,23 @@ namespace TextDiffToHtml
                     left = right;
                     right = tmp;
                 }
-                htmlSample +=
-                    "<p>" + this.LbSample.Text + ":</p>" + Const.newline
-                    + "<p>" + left.Replace(Const.newline, Const.htmlNewline) + "</p>" + Const.newline
-                    + "<p>" + right.Replace(Const.newline, Const.htmlNewline) + "</p>";
+
+                if (semanticDiff)
+                    htmlSample +=
+                        "<p>" + this.LbSample.Text + ":</p>" + Const.newline
+                        + "<p>Left sample:</p>" + Const.newline
+                        + "<p>" + left.Replace(Const.newline, Const.htmlNewline) + "</p>" + Const.newline
+                        + "<p>Right sample:</p>" + Const.newline
+                        + "<p>" + right.Replace(Const.newline, Const.htmlNewline) + "</p>";
+                else
+                    htmlSample +=
+                        "<p>" + this.LbSample.Text + ":</p>" + Const.newline
+                        + "<p>" + left.Replace(Const.newline, Const.htmlNewline) + "</p>" + Const.newline
+                        + "<p>" + right.Replace(Const.newline, Const.htmlNewline) + "</p>";
             }
 
             var html = htmlSample;
+            if (semanticDiff) html = "";
 
             var libraryText = this.LbLibrary.Text;
             var library = TextDiffToHtmlEnums.LibraryFromValue(libraryText);
@@ -736,14 +1070,87 @@ namespace TextDiffToHtml
                             break;
                     }
                     break;
+
+                case TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM:
+
+                    if (!Const.debugTextDiffLMMModels && 
+                        !Properties.Settings.Default.TextDiffLLMConfigured) 
+                    {
+                        html += "<br><b>TextDiffLLM is not configured. Please configure it in the settings.</b><br>";
+                        html += "<br>To configure TextDiffLLM:<br>";
+                        html += "<br>1°) Download and install Ollama<br>";
+                        html += "<br>2°) Download some Ollama embedding models: Ollama pull all-minilm, Ollama pull nomic-embed-text...<br>";
+                        html += "<br>3°) Configure TextDiffToHtml.dll.config with them: TextDiffLLMModels: all-minilm;nomic-embed-text<br>";
+                        break;
+                    }
+
+                    LongOperation();
+                    var htmlTextDiffLlmSideBySide = "";
+                    if (samples) htmlTextDiffLlmSideBySide = "<br>" + this.LbSample.Text +
+                            ": TextDiffLLM side by side<br>\n";
+
+                    var modelName = LbModels.Text;
+                    var upperCase = this.chkUpperCase.Checked;
+                    var vectorizationTest = this.chkVectSamples.Checked;
+                    if (vectorizationTest)
+                    {
+                        var result = TextDiffLLMAPI.TestVectorization(modelName, 
+                            capitalizeFirstChar: upperCase);
+                        htmlTextDiffLlmSideBySide += TextDiffLLMAPI.GetMetaData(modelName);
+                        htmlTextDiffLlmSideBySide += result;
+                    }
+                    else
+                    {
+                        var maxChunkLength = int.Parse(tbChunks.Text);
+                        const float semanticInferiorThresholdDefault = 0.9f;
+                        var infThreshold = ParseThreshold(tbInfThreshold.Text, 
+                            semanticInferiorThresholdDefault);
+                        // This is experimental:
+                        var gapPenalty = ParseGapPenalty(tbGapPenalty.Text, 0.25);
+
+                        var renderResult = TextDiffLLMAPI.RenderTextDiffSideBySide(left, right,
+                            modelName, maxChunkLength, infThreshold,
+                            gapPenalty,
+                            this.ChkIdenticalLines.Checked,
+                            this.ChkMonospacedFont.Checked, this.htmlRenderer);
+                        var isModified = renderResult.Modified;
+
+                        if (isModified) 
+                        {
+                            SyncScrollBarWithThresholdText();
+                            var thresholdIndex = renderResult.SimilarityThresholds.Count == 0
+                                ? 0
+                                : renderResult.SimilarityThresholds
+                                    .Select((value, index) => new { 
+                                        value, index, delta = Math.Abs(value - infThreshold) })
+                                    .OrderBy(x => x.delta)
+                                    .ThenBy(x => x.index)
+                                    .Select(x => x.index)
+                                    .FirstOrDefault();
+                            UpdateRenderThresholdUi(renderResult.SimilarityThresholds, thresholdIndex);
+                            //_thresholdModifierByUser = false; // Reset the flag after updating the UI
+                        }
+
+                        htmlTextDiffLlmSideBySide += renderResult.Html;
+                        bool cancelled = renderResult.Cancelled;
+                        if (samples && !cancelled) htmlTextDiffLlmSideBySide += htmlSample;
+                    }
+
+                    html += htmlTextDiffLlmSideBySide;
+                    Activation();
+                    this.htmlRenderer.Init();
+                    UpdateTitle();
+                    break;
             }
             html += Const.htmlEnd;
             return html;
         }
-        
+
+        private bool _shortcutExists = false;
         private void CheckShortcut()
         {
             bool exists = File.Exists(_shortcutPath);
+            _shortcutExists = exists;
             CmdAddShortcut.Enabled = !exists;
             CmdRemoveShortcut.Enabled = exists;
         }
@@ -762,5 +1169,7 @@ namespace TextDiffToHtml
             File.Delete(_shortcutPath);
             CheckShortcut();
         }
+
+        
     }
 }

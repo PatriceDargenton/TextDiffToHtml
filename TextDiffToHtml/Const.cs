@@ -4,7 +4,7 @@ namespace TextDiffToHtml
     internal class Const
     {
         public const string appTitle = "TextDiffToHtml";
-        public const string dateVersion = "11/07/2026";
+        public const string dateVersion = "04/09/2026";
 
         public const string sideBySideFile = "SideBySide.html";
         public const string inlineFile = "Inline.html";
@@ -12,7 +12,9 @@ namespace TextDiffToHtml
         public const string trackChanges = "TrackChanges.html";
 
         public const string outputFilename = "TextDiffToHtml.html";
-        
+
+        public const bool debugTextDiffLMMModels = false; // false by default, true for debugging purposes
+
         public static readonly Color InsertBkGrndColor = HtmlColors.VeryLightGreen;
         public static readonly Color DeleteBkGrndColor = HtmlColors.VeryLightRed;
 

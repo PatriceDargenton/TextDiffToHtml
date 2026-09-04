@@ -1,6 +1,4 @@
 
-using System.IO;
-
 namespace Shortcut.Helper
 {
     public static class ShortcutHelper
@@ -21,15 +19,43 @@ namespace Shortcut.Helper
                 shortcutPath += ".lnk";
 
             if (string.IsNullOrEmpty(workingDirectory))
-                workingDirectory = Path.GetDirectoryName(targetPath);
+                workingDirectory = Path.GetDirectoryName(targetPath) ?? string.Empty;
 
             if (string.IsNullOrEmpty(iconPath))
                 iconPath = targetPath;
 
-            dynamic wshShell = System.Activator.CreateInstance(
-                System.Type.GetTypeFromProgID("WScript.Shell"));
+            var wshType = System.Type.GetTypeFromProgID("WScript.Shell");
+            if (wshType is null)
+            {
+                MessageBox.Show(
+                    "WScript.Shell not found.",
+                    "Error creating shortcut",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
 
-            dynamic shortcut = wshShell.CreateShortcut(shortcutPath);
+            dynamic? wshShell = Activator.CreateInstance(wshType);
+            if (wshShell is null)
+            {
+                MessageBox.Show(
+                    "Can't create WScript.Shell.",
+                    "Error creating shortcut",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            dynamic? shortcut = wshShell.CreateShortcut(shortcutPath);
+            if (shortcut is null)
+            {
+                MessageBox.Show(
+                    "Can't create the shortcut.",
+                    "Error creating shortcut",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
 
             shortcut.TargetPath = targetPath;
             shortcut.Arguments = arguments;

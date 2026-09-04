@@ -44,5 +44,11 @@
     <Setting Name="SwapLeftRight" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="TextDiffLLMConfigured" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TextDiffLLMModels" Type="System.String" Scope="User">
+      <Value Profile="(Default)">all-minilm;nomic-embed-text</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

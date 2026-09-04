@@ -6,6 +6,10 @@ All notable changes to the TextDiffToHtml project will be documented in this fil
 ### Changed
 ### Added
 
+## [1.07] - 2025-09-04
+### Fixed
+- DiffLibLLM added
+
 ## [1.06] - 2025-07-11
 ### Fixed
 - Initialization with shortcut buttons

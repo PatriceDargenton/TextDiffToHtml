@@ -61,7 +61,17 @@ TextDiff, Text comparison, DiffPlex, DiffLib, TextDiff.Sharp, CSharpDiff, DiffMa
 # Features
 - DiffPlex, DiffLib, TextDiff.Sharp and CSharpDiff libraries are available;
 - Side by side, Inline, Compact and Track changes display modes are available;
-- Using [Vereyon's WebBrowser control](https://github.com/Vereyon/WebBrowser), it is possible to render the html in the Winform screen, before showing it your favorite Web browser. Note: Some HTML display styles does not work in the preview browser, they are only available in the external web browser: for example, maximum HTML column sizes (max-width: 100vw).
+- Using [Vereyon's WebBrowser control](https://github.com/Vereyon/WebBrowser), it is possible to render the html in the Winform screen, before showing it your favorite Web browser. Note: Some HTML display styles does not work in the preview browser, they are only available in the external web browser: for example, maximum HTML column sizes (max-width: 100vw);
+- Semantic diff using [DiffLibLLM](https://github.com/PatriceDargenton/DiffLibLLM): Compare texts with their translation:
+  - Download and install [Ollama](https://ollama.com/)
+  - Download some Ollama embedding models:
+  ```
+  Ollama pull all-minilm
+  Ollama pull nomic-embed-text
+  Ollama pull ...
+  ```
+  - Configure TextDiffToHtml.dll.config with them: TextDiffLLMModels: all-minilm;nomic-embed-text;... and TextDiffLLMConfigured: True
+  - See [Sample2](http://patrice.dargenton.free.fr/ai/DiffLibLLM/Semantic_Sample2_using_embeddinggemma.html), [Sample3](http://patrice.dargenton.free.fr/ai/DiffLibLLM/Semantic_Sample3_using_embeddinggemma.html) and [Sample4](http://patrice.dargenton.free.fr/ai/DiffLibLLM/Semantic_Sample4_using_embeddinggemma.html).
 
 # Explanations
 
@@ -93,6 +103,7 @@ This project relies on the following NuGet packages:
 - [TextDiff.Sharp](https://www.nuget.org/packages/TextDiff.Sharp/) ![NuGet](https://img.shields.io/nuget/v/TextDiff.Sharp.svg)
 - [CSharpDiff](https://www.nuget.org/packages/CSharpDiff/) ![NuGet](https://img.shields.io/nuget/v/CSharpDiff.svg)
 - [DiffMatchPatch](https://www.nuget.org/packages/DiffMatchPatch/) ![NuGet](https://img.shields.io/nuget/v/DiffMatchPatch.svg)
+- [DiffLibLLM](https://www.nuget.org/packages/DiffLibLLM/) ![NuGet](https://img.shields.io/nuget/v/DiffLibLLM.svg)
 - [Vereyon.Windows.WebBrowser](https://www.nuget.org/packages/Vereyon.Windows.WebBrowser/) ![NuGet](https://img.shields.io/nuget/v/Vereyon.Windows.WebBrowser.svg)
 - [Enums.Net](https://www.nuget.org/packages/Enums.Net/) ![NuGet](https://img.shields.io/nuget/v/Enums.Net.svg)
 
@@ -104,6 +115,10 @@ See [Changelog.md](Changelog.md)
 
 See also:
 
-- [TextDiffOptions](https://github.com/PatriceDargenton/TextDiffOptions)
+- Semantic diff using [DiffLibLLM](https://github.com/PatriceDargenton/DiffLibLLM): Compare texts with their translation
 
-- [VBWinDiff](https://github.com/PatriceDargenton/VBWinDiff) (french)
+- [DocToText](https://github.com/PatriceDargenton/DocToText): MS-Word .docx & .doc converter to plain text (.txt) and Markdown (.md) in C#
+
+- [TextDiffOptions](https://github.com/PatriceDargenton/TextDiffOptions): Options interface for TextDiffToHtml (or WinMerge) comparator in C#
+
+- [VBWinDiff](https://github.com/PatriceDargenton/VBWinDiff) (french): same utility in french and VB.Net

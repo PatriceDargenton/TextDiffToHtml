@@ -8,7 +8,7 @@ using DiffPlex;
 using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
 
-namespace TextDiffToHtml.TextDiffAPI
+namespace TextDiffToHtml
 {
     internal class DiffPlexAPI
     {
@@ -164,7 +164,7 @@ XYZ";
             {
                 if (set.Delta == "==")
                 {
-                    var record = new Record
+                    var record = new TextDiffToHtml.Record
                     {
                         L = set.L,
                         R = set.R,
@@ -175,7 +175,7 @@ XYZ";
                 }
                 else if (set.Delta == "<<")
                 {
-                    var record = new Record
+                    var record = new TextDiffToHtml.Record
                     {
                         L = set.L,
                         R = null,
@@ -186,7 +186,7 @@ XYZ";
                 }
                 else if (set.Delta == ">>")
                 {
-                    var record = new Record
+                    var record = new TextDiffToHtml.Record
                     {
                         L = null,
                         R = set.R,
@@ -198,7 +198,7 @@ XYZ";
                 else if (set.Delta == "<>")
                 {
                     var red = HtmlColors.ToRgbString(Const.UpdateCharLevelLeft);
-                    var leftRecord = new Record
+                    var leftRecord = new TextDiffToHtml.Record
                     {
                         L = set.L,
                         R = null,
@@ -208,7 +208,7 @@ XYZ";
                     sb.AppendLine(Helper.GetHtmlTableRow(leftRecord, cssClass: "redClass"));
 
                     var green = HtmlColors.ToRgbString(Const.UpdateCharLevelRight);
-                    var rightRecord = new Record
+                    var rightRecord = new TextDiffToHtml.Record
                     {
                         L = null,
                         R = set.R,

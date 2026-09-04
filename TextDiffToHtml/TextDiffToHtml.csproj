@@ -9,7 +9,7 @@
     <Features>strict</Features> <!-- C# strict mode -->
     <Product>TextDiffToHtml</Product>
     <AssemblyTitle>Side by side Text diff to html in C#</AssemblyTitle>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <ApplicationIcon>TextDiffToHtml.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -30,6 +30,7 @@
   <ItemGroup>
     <PackageReference Include="CSharpDiff" Version="0.0.7" />
     <PackageReference Include="difflib" Version="2025.0.0" />
+    <PackageReference Include="DiffLibLLM" Version="1.0.1" />
     <PackageReference Include="DiffMatchPatch" Version="5.0.0" />
     <PackageReference Include="DiffPlex" Version="1.9.0" />
     <PackageReference Include="Enums.NET" Version="5.0.0" />
