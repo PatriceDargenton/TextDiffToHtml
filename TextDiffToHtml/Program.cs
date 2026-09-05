@@ -132,7 +132,7 @@ namespace TextDiffToHtml
                 left = left.TrimStart();
                 right = right.TrimStart();
 
-                if (prm.Library == TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM &&
+                if (prm.Library == TextDiffToHtmlEnums.LibraryEnum.DiffLibLLM &&
                     prm.DisplayMode != TextDiffToHtmlEnums.DisplayModeEnum.SideBySide)
                 {
                     prm.DisplayMode = TextDiffToHtmlEnums.DisplayModeEnum.SideBySide;
@@ -177,9 +177,9 @@ namespace TextDiffToHtml
                         html = DiffPlexAPI.TextDiffTrackChanges(left, right);
                     }
                 }
-                else if (prm.Library == TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM)
+                else if (prm.Library == TextDiffToHtmlEnums.LibraryEnum.DiffLibLLM)
                 {
-                    html = TextDiffLLMAPI.TextDiffSideBySide(left, right, "", 110, 0.4f,
+                    html = DiffLibLLMAPI.TextDiffSideBySide(left, right, "", 110, 0.4f,
                         showIdenticalLines: prm.ShowIdenticalLines,
                         monospacedFont: prm.MonospacedFont);
                 }
@@ -579,75 +579,75 @@ namespace TextDiffToHtml
             if (semanticDemo)
             {
                 var modelName = ModelEnum.AllMinilm.ToShortDescription();
-                var htmlSem = TextDiffLLMAPI.GetMetaData(modelName);
-                htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                var htmlSem = DiffLibLLMAPI.GetMetaData(modelName);
+                htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
 
                 // nomic-embed-text is not case sensitive, same results there
                 modelName = ModelEnum.NomicEmbedText.ToShortDescription();
-                htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
 
                 if (fullSemanticDemo)
                 {
                     modelName = ModelEnum.MxbaiEmbedLarge.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
 
                     modelName = ModelEnum.EmbeddingGemma.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.GraniteEmbedding278m.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     // bge-m3 is case sensitive, different results there
                     modelName = ModelEnum.BgeM3.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.QllamaMultilingualE5Base.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.Qwen3Embedding06b.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.NomicEmbedTextV2Moe.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.ParaphraseMultilingual278m.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.ParaphraseMultilingual.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.ZylonaiMultilingualE5Large.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.SnowflakeArcticEmbed2.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
 
                     modelName = ModelEnum.Qwen3Embedding.ToShortDescription();
-                    htmlSem += TextDiffLLMAPI.GetMetaData(modelName);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
-                    htmlSem += TextDiffLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
+                    htmlSem += DiffLibLLMAPI.GetMetaData(modelName);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: false);
+                    htmlSem += DiffLibLLMAPI.TestVectorization(modelName, capitalizeFirstChar: true);
                 }
 
                 string path = AppContext.BaseDirectory;

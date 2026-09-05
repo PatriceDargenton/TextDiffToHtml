@@ -11,16 +11,23 @@ namespace TextDiffToHtml
         {
             [Description("Compare using DiffPlex")] // https://github.com/mmanela/diffplex
             DiffPlex,
+            
             [Description("Compare using DiffLib")] // https://github.com/lassevk/DiffLib
             DiffLib,
+            
             [Description("Compare using TextDiff.Sharp")] // https://github.com/iyulab/TextDiff
             TextDiffSharp,
+            
             [Description("Compare using CSharpDiff")] // https://github.com/thomashambach/csharpdiff
             CSharpDiff,
-            [Description("Compare using TextDiffLLM")] // Semantic diff based on DiffLibLLM
-            TextDiffLLM,
+
             //[Description("Compare using DiffMatchPatch")] // https://github.com/google/diff-match-patch
             //DiffMatchPatch,
+
+            // TextDiffLLM: All semantic diff librairies for TextDiffToHtml
+            // DiffLibLLM is the first one used
+            [Description("Compare using DiffLibLLM")] // https://github.com/PatriceDargenton/DiffLibLLM
+            DiffLibLLM,
         }
 
         [Description("Display mode")]

@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace TextDiffToHtml
 {
-    internal static class TextDiffLLMAPI
+    internal static class DiffLibLLMAPI
     {
         internal sealed record SemanticSideBySideRenderResult(
             string Html,
@@ -473,10 +473,10 @@ namespace TextDiffToHtml
             return $"#{red:X2}{green:X2}{blue:X2}";
         }
 
-        #region "TextDiffLLM Samples 1 & 2"
+        #region "DiffLibLLM Samples 1 & 2"
 
         // Réglage ok : 60 .80 .90
-        public const string TextDiffLLMLeftSample1 =
+        public const string DiffLibLLMLeftSample1 =
 @"Cette ligne est bien identique
 Cette ligne est également identique
 Cette ligne a été supprimée
@@ -486,7 +486,7 @@ Cette ligne a été modifiée
 Cette ligne a également été modifiée
 Voici la dernière ligne identique";
 
-        public const string TextDiffLLMRightSample1 =
+        public const string DiffLibLLMRightSample1 =
 @"Cette ligne est identique
 Cette ligne est également identique
 Cette ligne a été supprimée
@@ -497,7 +497,7 @@ Cette ligne a également été modifiée
 Voici la dernière ligne identique";
 
         // Réglage ok : 40 .80 .90
-        public const string TextDiffLLMLeftSample2 =
+        public const string DiffLibLLMLeftSample2 =
 @"This line is the same
         This line is also the same
         This line is yet another equal line
@@ -508,7 +508,7 @@ Voici la dernière ligne identique";
         And this line was changed to this
         This is the final equal line";
 
-        public const string TextDiffLLMRightSample2 =
+        public const string DiffLibLLMRightSample2 =
 @"Cette ligne est identique
 Cette ligne est également identique
 Cette ligne est encore une ligne identique
@@ -522,9 +522,9 @@ Ceci est la dernière ligne identique";
 
         #endregion
 
-        #region "TextDiffLLM Sample 3 : Mikael Jakson : Billie Jean"
+        #region "DiffLibLLM Sample 3 : Mikael Jakson : Billie Jean"
 
-        public const string TextDiffLLMLeftSample3 =
+        public const string DiffLibLLMLeftSample3 =
 @"Michael Jackson - Billie Jean - 1982
 
 [Verse 1]
@@ -609,7 +609,7 @@ Billie Jean is not my lover, uh (She is just a girl; she's not at the scene)
 Billie Jean is not (Hee), aaow, ooh
 Yeah, Billie Jean is not...";
 
-        public const string TextDiffLLMRightSample3 =
+        public const string DiffLibLLMRightSample3 =
 @"Michael Jackson - Billie Jean - 1982
 
 [Couplet 1]
@@ -697,9 +697,9 @@ Ouais, Billie Jean n'est pas...";
 
         #endregion
 
-        #region "TextDiffLLM Sample 4 : Mikael Jakson : Beat It"
+        #region "DiffLibLLM Sample 4 : Mikael Jakson : Beat It"
 
-        public const string TextDiffLLMLeftSample4 =
+        public const string DiffLibLLMLeftSample4 =
 @"Michael Jackson - Beat It - 1982
 
 They told him, ""Don't you ever come around here""
@@ -768,7 +768,7 @@ It doesn't matter who's wrong or right (who's right)
 Just beat it (beat it), beat it (beat it)
 No one wants to be defeated";
 
-        public const string TextDiffLLMRightSample4 =
+        public const string DiffLibLLMRightSample4 =
 @"Michael Jackson - Beat It - 1982
 
 Ils lui ont dit : « Ne remets jamais les pieds ici »
@@ -840,9 +840,9 @@ Personne ne veut être vaincu";
 
         #endregion
 
-        #region "TextDiffLLM Sample 5 : Mikael Jakson : Thriller"
+        #region "DiffLibLLM Sample 5 : Mikael Jakson : Thriller"
 
-        public const string TextDiffLLMLeftSample5 =
+        public const string DiffLibLLMLeftSample5 =
 @"Michael Jackson - Thriller - 1982
 
 It's close to midnight
@@ -930,7 +930,7 @@ Your body starts to shiver
 For no mere mortal can resist
 The evil of the thriller";
 
-        public const string TextDiffLLMRightSample5 =
+        public const string DiffLibLLMRightSample5 =
 @"Michael Jackson - Thriller - 1982
 
 Minuit approche

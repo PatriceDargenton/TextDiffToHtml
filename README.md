@@ -52,6 +52,7 @@ TextDiff, Text comparison, DiffPlex, DiffLib, TextDiff.Sharp, CSharpDiff, DiffMa
 - [Keywords](#keywords)
 - [Features](#features)
 - [Explanations](#explanations)
+    - [Semantic diff using DiffLibLLM](#semantic-diff-using-difflibllm)
     - [Command line arguments](#command-line-arguments)
     - [SendTo menu](#sendto-menu)
 - [Dependencies](#dependencies)
@@ -62,8 +63,12 @@ TextDiff, Text comparison, DiffPlex, DiffLib, TextDiff.Sharp, CSharpDiff, DiffMa
 - DiffPlex, DiffLib, TextDiff.Sharp and CSharpDiff libraries are available;
 - Side by side, Inline, Compact and Track changes display modes are available;
 - Using [Vereyon's WebBrowser control](https://github.com/Vereyon/WebBrowser), it is possible to render the html in the Winform screen, before showing it your favorite Web browser. Note: Some HTML display styles does not work in the preview browser, they are only available in the external web browser: for example, maximum HTML column sizes (max-width: 100vw);
-- Semantic diff using [DiffLibLLM](https://github.com/PatriceDargenton/DiffLibLLM): Compare texts with their translation:
-  - Download and install [Ollama](https://ollama.com/)
+- Semantic diff using [DiffLibLLM](https://github.com/PatriceDargenton/DiffLibLLM): Compare texts with their translation.
+
+# Explanations
+
+## Semantic diff using DiffLibLLM
+- Download and install [Ollama](https://ollama.com/)
   - Download some Ollama embedding models:
   ```
   Ollama pull all-minilm
@@ -72,8 +77,7 @@ TextDiff, Text comparison, DiffPlex, DiffLib, TextDiff.Sharp, CSharpDiff, DiffMa
   ```
   - Configure TextDiffToHtml.dll.config with them: TextDiffLLMModels: all-minilm;nomic-embed-text;... and TextDiffLLMConfigured: True
   - See [Sample2](http://patrice.dargenton.free.fr/ai/DiffLibLLM/Semantic_Sample2_using_embeddinggemma.html), [Sample3](http://patrice.dargenton.free.fr/ai/DiffLibLLM/Semantic_Sample3_using_embeddinggemma.html) and [Sample4](http://patrice.dargenton.free.fr/ai/DiffLibLLM/Semantic_Sample4_using_embeddinggemma.html).
-
-# Explanations
+- Semantic matching is sensitive to tokenization, yet it generally performs quite well, despite being somewhat slow. It is evident that tokenization is merely a first step, albeit one that already accomplishes part of the task. A subsequent step would involve using an LLM—specifically for translation, rather than just tokenization; the matching algorithm should leverage increasingly powerful tools (tokenization, vectorization, translation) to refine results, while remaining mindful of the required computational time. Tokenization is an imperfect process, as operations on semantic vectors are not transitive (see the [DiffLib](https://github.com/PatriceDargenton/DiffLibLLM) examples); nevertheless, vectorization alone already yields interesting results. Moreover, we know that with the most powerful LLMs, this is already sufficient to generate powerful intelligence.
 
 ## Command line arguments
 

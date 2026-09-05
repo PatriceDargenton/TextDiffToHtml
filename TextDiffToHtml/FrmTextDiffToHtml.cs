@@ -86,7 +86,7 @@ namespace TextDiffToHtml
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffLib);
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.TextDiffSharp);
             LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.CSharpDiff);
-            LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM);
+            LbLibrary.Items.Add(TextDiffToHtmlEnums.LibraryEnum.DiffLibLLM);
             LbLibrary.SelectedIndex = 0;
 
             LbDisplayMode.Items.Clear();
@@ -451,7 +451,7 @@ namespace TextDiffToHtml
             // Only one display mode is available for semantic diff, so disable the display mode selection
             var semanticDiff = false;
             var lib = this.LbLibrary.Text;
-            if (lib == TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM.ToString()) semanticDiff = true;
+            if (lib == TextDiffToHtmlEnums.LibraryEnum.DiffLibLLM.ToString()) semanticDiff = true;
             this.LbDisplayMode.Enabled = !semanticDiff;
 
             this.ChkMonospacedFont.Enabled = false;
@@ -601,7 +601,7 @@ namespace TextDiffToHtml
                     }
                     break;
 
-                case TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM:
+                case TextDiffToHtmlEnums.LibraryEnum.DiffLibLLM:
                     this.ChkIdenticalLines.Enabled = true;
                     this.ChkMonospacedFont.Enabled = true;
                     this.ChkIdenticalParts.Checked = true;
@@ -634,7 +634,7 @@ namespace TextDiffToHtml
             // Only one display mode is available for semantic diff, so disable the display mode selection
             var semanticDiff = false;
             var lib = this.LbLibrary.Text;
-            if (lib == TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM.ToString()) semanticDiff = true;
+            if (lib == TextDiffToHtmlEnums.LibraryEnum.DiffLibLLM.ToString()) semanticDiff = true;
             if (semanticDiff) 
             { 
                 this.LbDisplayMode.Enabled = false;
@@ -757,7 +757,7 @@ namespace TextDiffToHtml
 
             var semanticDiff = false;
             var lib = this.LbLibrary.Text;
-            if (lib == TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM.ToString()) semanticDiff = true;
+            if (lib == TextDiffToHtmlEnums.LibraryEnum.DiffLibLLM.ToString()) semanticDiff = true;
 
             var samples = true;
             if (!string.IsNullOrEmpty(this.prm.LeftText) &&
@@ -818,28 +818,28 @@ namespace TextDiffToHtml
                     switch (sample)
                     {
                         case "Sample 1":
-                            left = TextDiffLLMAPI.TextDiffLLMLeftSample1;
-                            right = TextDiffLLMAPI.TextDiffLLMRightSample1;
+                            left = DiffLibLLMAPI.DiffLibLLMLeftSample1;
+                            right = DiffLibLLMAPI.DiffLibLLMRightSample1;
                             break;
 
                         case "Sample 2":
-                            left = TextDiffLLMAPI.TextDiffLLMLeftSample2;
-                            right = TextDiffLLMAPI.TextDiffLLMRightSample2;
+                            left = DiffLibLLMAPI.DiffLibLLMLeftSample2;
+                            right = DiffLibLLMAPI.DiffLibLLMRightSample2;
                             break;
 
                         case "Sample 3":
-                            left = TextDiffLLMAPI.TextDiffLLMLeftSample3;
-                            right = TextDiffLLMAPI.TextDiffLLMRightSample3;
+                            left = DiffLibLLMAPI.DiffLibLLMLeftSample3;
+                            right = DiffLibLLMAPI.DiffLibLLMRightSample3;
                             break;
 
                         case "Sample 4":
-                            left = TextDiffLLMAPI.TextDiffLLMLeftSample4;
-                            right = TextDiffLLMAPI.TextDiffLLMRightSample4;
+                            left = DiffLibLLMAPI.DiffLibLLMLeftSample4;
+                            right = DiffLibLLMAPI.DiffLibLLMRightSample4;
                             break;
 
                         case "Sample 5":
-                            left = TextDiffLLMAPI.TextDiffLLMLeftSample5;
-                            right = TextDiffLLMAPI.TextDiffLLMRightSample5;
+                            left = DiffLibLLMAPI.DiffLibLLMLeftSample5;
+                            right = DiffLibLLMAPI.DiffLibLLMRightSample5;
                             break;
                     }
                 }
@@ -1071,13 +1071,13 @@ namespace TextDiffToHtml
                     }
                     break;
 
-                case TextDiffToHtmlEnums.LibraryEnum.TextDiffLLM:
+                case TextDiffToHtmlEnums.LibraryEnum.DiffLibLLM:
 
                     if (!Const.debugTextDiffLMMModels && 
                         !Properties.Settings.Default.TextDiffLLMConfigured) 
                     {
-                        html += "<br><b>TextDiffLLM is not configured. Please configure it in the settings.</b><br>";
-                        html += "<br>To configure TextDiffLLM:<br>";
+                        html += "<br><b>DiffLibLLM is not configured. Please configure it in the settings.</b><br>";
+                        html += "<br>To configure DiffLibLLM:<br>";
                         html += "<br>1°) Download and install Ollama<br>";
                         html += "<br>2°) Download some Ollama embedding models: Ollama pull all-minilm, Ollama pull nomic-embed-text...<br>";
                         html += "<br>3°) Configure TextDiffToHtml.dll.config with them: TextDiffLLMModels: all-minilm;nomic-embed-text<br>";
@@ -1085,19 +1085,19 @@ namespace TextDiffToHtml
                     }
 
                     LongOperation();
-                    var htmlTextDiffLlmSideBySide = "";
-                    if (samples) htmlTextDiffLlmSideBySide = "<br>" + this.LbSample.Text +
-                            ": TextDiffLLM side by side<br>\n";
+                    var htmlDiffLibLLMSideBySide = "";
+                    if (samples) htmlDiffLibLLMSideBySide = "<br>" + this.LbSample.Text +
+                            ": DiffLibLLM side by side<br>\n";
 
                     var modelName = LbModels.Text;
                     var upperCase = this.chkUpperCase.Checked;
                     var vectorizationTest = this.chkVectSamples.Checked;
                     if (vectorizationTest)
                     {
-                        var result = TextDiffLLMAPI.TestVectorization(modelName, 
+                        var result = DiffLibLLMAPI.TestVectorization(modelName, 
                             capitalizeFirstChar: upperCase);
-                        htmlTextDiffLlmSideBySide += TextDiffLLMAPI.GetMetaData(modelName);
-                        htmlTextDiffLlmSideBySide += result;
+                        htmlDiffLibLLMSideBySide += DiffLibLLMAPI.GetMetaData(modelName);
+                        htmlDiffLibLLMSideBySide += result;
                     }
                     else
                     {
@@ -1108,7 +1108,7 @@ namespace TextDiffToHtml
                         // This is experimental:
                         var gapPenalty = ParseGapPenalty(tbGapPenalty.Text, 0.25);
 
-                        var renderResult = TextDiffLLMAPI.RenderTextDiffSideBySide(left, right,
+                        var renderResult = DiffLibLLMAPI.RenderTextDiffSideBySide(left, right,
                             modelName, maxChunkLength, infThreshold,
                             gapPenalty,
                             this.ChkIdenticalLines.Checked,
@@ -1131,12 +1131,12 @@ namespace TextDiffToHtml
                             //_thresholdModifierByUser = false; // Reset the flag after updating the UI
                         }
 
-                        htmlTextDiffLlmSideBySide += renderResult.Html;
+                        htmlDiffLibLLMSideBySide += renderResult.Html;
                         bool cancelled = renderResult.Cancelled;
-                        if (samples && !cancelled) htmlTextDiffLlmSideBySide += htmlSample;
+                        if (samples && !cancelled) htmlDiffLibLLMSideBySide += htmlSample;
                     }
 
-                    html += htmlTextDiffLlmSideBySide;
+                    html += htmlDiffLibLLMSideBySide;
                     Activation();
                     this.htmlRenderer.Init();
                     UpdateTitle();
