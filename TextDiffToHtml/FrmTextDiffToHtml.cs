@@ -871,7 +871,7 @@ namespace TextDiffToHtml
             }
 
             var html = htmlSample;
-            if (semanticDiff) html = "";
+            if (semanticDiff) html = Const.htmlStart;
 
             var libraryText = this.LbLibrary.Text;
             var library = TextDiffToHtmlEnums.LibraryFromValue(libraryText);
